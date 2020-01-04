@@ -1,6 +1,7 @@
 ﻿using StrategyDesignPattern.Common;
 using StrategyDesignPattern.Interfaces;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace StrategyDesignPattern.Models
 {
@@ -14,17 +15,17 @@ namespace StrategyDesignPattern.Models
 
 		public PriceCalculationResult WithTax(IMoney tax)
 		{
-			Tax = tax.WithPrecision(2);
+			Tax = tax.WithPrecision(Constants.DefaultPrecision);
 			return this;
 		}
 		public PriceCalculationResult WithPriceBefore(IMoney price)
 		{
-			Cost = price.WithPrecision(2);
+			Cost = price.WithPrecision(Constants.DefaultPrecision);
 			return this;
 		}
 		public PriceCalculationResult WithDiscounts(IMoney discount)
 		{
-			Discounts = discount.WithPrecision(2);
+			Discounts = discount.WithPrecision(Constants.DefaultPrecision);
 			return this;
 		}
 		public PriceCalculationResult WithExpenses(IEnumerable<IExpense> expenses)
@@ -35,18 +36,18 @@ namespace StrategyDesignPattern.Models
 
 		public PriceCalculationResult WithTotal(IMoney total)
 		{
-			Total = total.WithPrecision(2);
+			Total = total.WithPrecision(Constants.DefaultPrecision);
 			return this;
 		}
 
-		public PriceCalculationResult WithFormat(IMoney total)
+		public PriceCalculationResult WithFormat(NumberFormatInfo currencyFormat)
 		{
-			Total = total.WithPrecision(2);
+			this.currencyFormat = currencyFormat;
 			return this;
 		}
 
 		public IProduct product;
-		public Format format;
+		public NumberFormatInfo currencyFormat;
 		public IMoney Cost { get; set; }
 		public IMoney Tax { get; set; }
 		public IMoney Discounts { get; set; }

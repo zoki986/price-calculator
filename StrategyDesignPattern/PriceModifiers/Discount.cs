@@ -1,20 +1,20 @@
 ﻿using StrategyDesignPattern.Common;
-using StrategyDesignPattern.Formaters;
 using StrategyDesignPattern.Interfaces;
+using StrategyDesignPattern.Models;
 using System;
 
 namespace StrategyDesignPattern.PriceModifiers
 {
 	public class Discount : IDiscount
 	{
-		public IMoney Amount { get; set; }
-		public IFormater Formater { get; }
+		public Money DiscountAmount { get; set; }
 		public int Precision { get;  set; } = 2;
 		public bool HasPrecedence { get; set; }
+		public int UPC { get; set; }
 
-		public Discount WithDiscount(IMoney discount)
+		public Discount WithDiscount(Money discount)
 		{
-			this.Amount = discount;
+			this.DiscountAmount = discount;
 			return this;
 		}
 
@@ -32,12 +32,12 @@ namespace StrategyDesignPattern.PriceModifiers
 
 		public IMoney ApllyPriceModifier(IProduct product)
 		{
-			var amount = (product.Price.Ammount * Amount.Ammount).WithPrecision(Precision);
-			return (IMoney)Activator.CreateInstance(Amount.GetType(), amount);
+			var amount = (product.Price.Amount * DiscountAmount.Amount).WithPrecision(Precision);
+			return (IMoney)Activator.CreateInstance(DiscountAmount.GetType(), amount);
 		}
 		public override string ToString()
 		{
-			return $"Discount = {Amount.ToString()}";
+			return $"Discount = {DiscountAmount.ToString()}";
 		}
 	}
 }

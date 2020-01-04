@@ -1,9 +1,12 @@
 ﻿using StrategyDesignPattern.Interfaces;
-using StrategyDesignPattern.Models;
 using StrategyDesignPattern.PriceCalculationStrategies;
+using StrategyDesignPattern.PriceModifiers;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using static StrategyDesignPattern.PriceCalculationStrategies.PriceCalculationFunctions;
+using ValueType = StrategyDesignPattern.Models.ValueType;
 
 namespace StrategyDesignPattern.Builder
 {
@@ -12,22 +15,29 @@ namespace StrategyDesignPattern.Builder
 		public ITax Tax { get; set; }
 		public List<IDiscount> Discounts { get; set; } = new List<IDiscount>();
 		public List<IExpense> AdditionalExpenses { get; set; } = new List<IExpense>();
-		public IPriceCalculation CalculationStrategy { get; set; } = new AdditivePriceCalculation();
+		
+		public NumberFormatInfo CurrencyFormat = new NumberFormatInfo() { CurrencySymbol = "$" };
 
+		public Func<IEnumerable<IDiscount>, IProduct, IMoney> DiscountCalculationMode = SumDiscounts;
 		public DiscountCap Cap;
+		public IPriceCalculation Calculator;
 
-		public NumberFormatInfo formatInfo;
+		public PriceModifiersBuilder()
+		{
+			Calculator = new PriceCalculator();
+		}
 
 		public PriceModifiersBuilder WithCurrencyFormat(string simbol, bool suffix = true)
 		{
-			formatInfo = new NumberFormatInfo();
+			CurrencyFormat = new NumberFormatInfo();
 			if (string.IsNullOrWhiteSpace(simbol) && Regex.IsMatch(simbol, "[A-Z]{3}"))
 				simbol = "USD";
 
-			formatInfo.CurrencySymbol = simbol;
+			CurrencyFormat.CurrencySymbol = simbol;
+			CurrencyFormat.CurrencyPositivePattern = 2;
 
 			if (suffix)
-				formatInfo.CurrencyPositivePattern = 3;
+				CurrencyFormat.CurrencyPositivePattern = 3;
 
 			return this;
 		}
@@ -38,21 +48,21 @@ namespace StrategyDesignPattern.Builder
 			return this;
 		}
 
-		public PriceModifiersBuilder WithDiscount(IDiscount discount)
+		public PriceModifiersBuilder WithDiscount(params IDiscount[] discount)
 		{
-			Discounts.Add(discount);
+			Discounts.AddRange(discount);
 			return this;
 		}
 
-		public PriceModifiersBuilder WithExpense(IExpense expense)
+		public PriceModifiersBuilder WithExpense(params IExpense[] expense)
 		{
-			AdditionalExpenses.Add(expense);
+			AdditionalExpenses.AddRange(expense);
 			return this;
 		}
 
 		public PriceModifiersBuilder WithAdditiveCalculation()
 		{
-			this.CalculationStrategy = new AdditivePriceCalculation();
+			this.DiscountCalculationMode = SumDiscounts;
 			return this;
 		}
 
@@ -64,8 +74,13 @@ namespace StrategyDesignPattern.Builder
 
 		public PriceModifiersBuilder WithMultiplicativeCalculation()
 		{
-			this.CalculationStrategy = new MultiplicativeCalculation();
+			DiscountCalculationMode = MultypliDiscounts;
 			return this;
+		}
+
+		public PriceModifiersBuilder WithConfigurationFile(string filePath)
+		{
+			return PriceModifierBuilderFromConfig.GetPriceModifierBuilder(filePath);
 		}
 
 		public void Reset()
@@ -74,7 +89,6 @@ namespace StrategyDesignPattern.Builder
 			Discounts = new List<IDiscount>();
 			AdditionalExpenses = new List<IExpense>();
 			Cap = null;
-			CalculationStrategy = null;
 		}
 	}
 

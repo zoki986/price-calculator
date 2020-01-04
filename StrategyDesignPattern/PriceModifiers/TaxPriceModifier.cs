@@ -1,24 +1,24 @@
 ﻿using StrategyDesignPattern.Common;
-using StrategyDesignPattern.Formaters;
 using StrategyDesignPattern.Interfaces;
+using StrategyDesignPattern.Models;
 using System;
 
 namespace StrategyDesignPattern.PriceModifiers
 {
 	public class TaxPriceModifier : ITax
 	{
-		public IMoney Cost { get; set; }
+		public Money Cost { get; set; }
 		public int Precision { get; set; }
 
-		public TaxPriceModifier(IMoney currency, int precision = 2)
+		public TaxPriceModifier(Money amount, int precision = 2)
 		{
-			Cost = currency;
+			Cost = amount;
 			Precision = precision;
 		}
 
 		public IMoney ApllyPriceModifier(IProduct product)
 		{
-			var amount = (Cost.Ammount * product.Price.Ammount).WithPrecision(Precision);
+			var amount = (Cost.Amount * product.Price.Amount).WithPrecision(Precision);
 			return (IMoney)Activator.CreateInstance(Cost.GetType(), amount);
 		}
 

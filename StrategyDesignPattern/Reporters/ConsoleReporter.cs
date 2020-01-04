@@ -1,41 +1,51 @@
 ﻿using StrategyDesignPattern.Common;
 using StrategyDesignPattern.Interfaces;
 using StrategyDesignPattern.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using static System.Console;
 
 namespace StrategyDesignPattern.Reporters
 {
 	public static class ConsoleReporter
 	{
-		public static void PrintResult(PriceCalculationResult priceCalculationResult)
+		public static void PrintResult(PriceCalculationResult result)
 		{
-			WriteLine($"Reporting product price for product: {priceCalculationResult.product}");
+			WriteLine($"Reporting product price for product: ");
+			WriteLine(result.product.AsString(result.currencyFormat));
+			var props = result.GetType().GetProperties();
 
-			var props = priceCalculationResult.GetType().GetProperties();
 			foreach (var prop in props)
 			{
-				if (prop.PropertyType == typeof(IEnumerable<IExpense>))
+				if (prop.IsOfType<IEnumerable<IExpense>>(result))
 				{
-					var expenses = (prop.GetValue(priceCalculationResult) as IEnumerable<Expense>) ?? Enumerable.Empty<Expense>();
-
-					foreach (var expense in expenses)
-					{
-						WriteLine(expense);
-					}
+					var expenses = prop.GetPropertyOfType<IExpense>(result);
+					WriteAdditionalExpensesToConsole(expenses, result);
 				}
 				else
 				{
-					var propValue = prop.GetValueAsType<IMoney>(priceCalculationResult);
-					if (prop.Name.Equals("Discounts") && propValue.Ammount == 0)
-						continue;
-
-					Write(prop.Name + " - "); Write(propValue.ToString());
-					WriteLine();
+					WritePriceToConsole(prop, result);
 				}
 			}
 			WriteLine();
+		}
+
+		private static void WriteAdditionalExpensesToConsole(IEnumerable<IExpense> expenses, PriceCalculationResult result)
+		{
+			foreach (var expense in expenses)
+			{
+				Write($"{expense.Name} - {expense.Cost.FormatCurrency(result.currencyFormat)} {Environment.NewLine}");
+			}
+		}
+
+		private static void WritePriceToConsole(PropertyInfo property, PriceCalculationResult result)
+		{
+			var propValue = property.GetValueAsType<IMoney>(result);
+			if (property.Name.Equals(nameof(result.Discounts)) && propValue.Amount == 0)
+				return;
+
+			Write($"{property.Name} - {propValue.FormatCurrency(result.currencyFormat)} {Environment.NewLine}");
 		}
 	}
 }

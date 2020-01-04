@@ -19,19 +19,24 @@ namespace StrategyDesignPattern.Common
 		}
 		public static IMoney SumDiscounts(this IEnumerable<IDiscount> discounts, IProduct product)
 		{
-			var discountsSumed = discounts.Aggregate(0M, (prev, next) => prev + next.ApllyPriceModifier(product).Ammount);
+			var discountsSumed = discounts.Aggregate(0M, (prev, next) => prev + next.ApllyPriceModifier(product).Amount);
 			return (IMoney)Activator.CreateInstance(product.Price.GetType(), discountsSumed);
 		}
 
 		public static IMoney MultypliDiscounts(this IEnumerable<IDiscount> discounts, IProduct product)
 		{
-			var productPrice = product.Price.Ammount;
+			var productPrice = product.Price.Amount;
 			var discountsMultiplied = discounts.Aggregate(0M, (prev, next) => Calculate(prev, next, productPrice));
 			return (IMoney)Activator.CreateInstance(product.Price.GetType(), discountsMultiplied);
 		}
 		private static decimal Calculate(decimal prev, IDiscount next, decimal productPrice)
 		{
-			return (((productPrice - prev) * next.Amount.Ammount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
+			return (((productPrice - prev) * next.DiscountAmount.Amount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
+		}
+
+		public static IMoney WithDiscountCalculationStrategy(this IEnumerable<IDiscount> discounts, Func<IEnumerable<IDiscount>, IProduct, IMoney> strategy, IProduct product)
+		{
+			return strategy(discounts, product);
 		}
 	}
 }

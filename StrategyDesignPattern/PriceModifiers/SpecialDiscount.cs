@@ -1,17 +1,16 @@
 ﻿using StrategyDesignPattern.Common;
-using StrategyDesignPattern.Formaters;
 using StrategyDesignPattern.Interfaces;
+using StrategyDesignPattern.Models;
 using System;
 
 namespace StrategyDesignPattern.PriceModifiers
 {
 	public class SpecialDiscount : Discount
 	{
-		public int UPC { get; set; }
 
-		new public SpecialDiscount WithDiscount(IMoney discount)
+		new public SpecialDiscount WithDiscount(Money discount)
 		{
-			this.Amount = discount;
+			this.DiscountAmount = discount;
 			return this;
 		}
 
@@ -35,10 +34,10 @@ namespace StrategyDesignPattern.PriceModifiers
 		new public IMoney ApllyPriceModifier(IProduct product)
 		{
 			if (product.UPC != UPC)
-				return product.Price;
+				return (IMoney)Activator.CreateInstance(DiscountAmount.GetType(), 0);
 
-			var amount = (Amount.Ammount * product.Price.Ammount).WithPrecision(Precision);
-			return (IMoney)Activator.CreateInstance(Amount.GetType(), amount, Formater);
+			var amount = (DiscountAmount.Amount * product.Price.Amount).WithPrecision(Precision);
+			return (IMoney)Activator.CreateInstance(DiscountAmount.GetType(), amount);
 		}
 	}
 }

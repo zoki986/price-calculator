@@ -1,5 +1,6 @@
 ﻿using StrategyDesignPattern.Interfaces;
 using System;
+using System.Globalization;
 
 namespace StrategyDesignPattern.Models
 {
@@ -18,7 +19,12 @@ namespace StrategyDesignPattern.Models
 
 		public override string ToString()
 		{
-			return $"Name - {Name}, UPC - {UPC} and Price - {Price}";
+			return $"{Name}, UPC - {UPC} and Price - {Price}";
+		}
+
+		public string AsString(NumberFormatInfo formatInfo)
+		{
+			return $"{Name}, UPC - {UPC} and Price - {Price.Amount.ToString("C", formatInfo)}";
 		}
 	}
 }

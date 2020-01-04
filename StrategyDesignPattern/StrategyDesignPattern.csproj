@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,41 +46,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\PriceModifierBuilderFromConfig.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\CurrencyExtensions.cs" />
     <Compile Include="Common\ExpensesExtensions.cs" />
     <Compile Include="Common\DecimalExtensions.cs" />
     <Compile Include="Common\DiscountExtensions.cs" />
-    <Compile Include="Common\ProductExtensions.cs" />
     <Compile Include="Common\PropertyInfoExtensions.cs" />
-    <Compile Include="Common\StringExtensions.cs" />
-    <Compile Include="Factories\FormaterFactory.cs" />
-    <Compile Include="Factories\IFormaterAbstractFactory.cs" />
-    <Compile Include="Formaters\BaseCurrencyFormater.cs" />
-    <Compile Include="Formaters\DolarPrefixFormater.cs" />
-    <Compile Include="Formaters\DolarSufixFormater.cs" />
-    <Compile Include="Formaters\IFormater.cs" />
     <Compile Include="Interfaces\IExpense.cs" />
     <Compile Include="Interfaces\IPriceCalculation.cs" />
     <Compile Include="Interfaces\ITax.cs" />
     <Compile Include="Builder\PriceModifiersBuilder.cs" />
-    <Compile Include="Models\DiscountCap.cs" />
-    <Compile Include="Models\Expense.cs" />
+    <Compile Include="PriceModifiers\DiscountCap.cs" />
+    <Compile Include="PriceModifiers\Expense.cs" />
     <Compile Include="Models\PriceCalculationResult.cs" />
-    <Compile Include="PriceCalculationStrategies\AdditivePriceCalculation.cs" />
+    <Compile Include="Models\PriceConfig.cs" />
+    <Compile Include="PriceCalculationStrategies\PriceCalculator.cs" />
     <Compile Include="Models\ValueType.cs" />
-    <Compile Include="PriceCalculationStrategies\MultiplicativeCalculation.cs" />
-    <Compile Include="PriceModifiers\NoDiscount.cs" />
+    <Compile Include="PriceCalculationStrategies\PriceCalculationFunctions.cs" />
     <Compile Include="PriceModifiers\SpecialDiscount.cs" />
     <Compile Include="PriceModifiers\TaxPriceModifier.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
-    <Compile Include="Strategies\CalculationStrategy.cs" />
     <Compile Include="Strategies\PriceCalculationContext.cs" />
-    <Compile Include="Strategies\StrategyContext.cs" />
-    <Compile Include="Models\Dolar.cs" />
+    <Compile Include="Models\Money.cs" />
     <Compile Include="Interfaces\IMoney.cs" />
     <Compile Include="Interfaces\IProduct.cs" />
-    <Compile Include="Interfaces\IPriceCalculationStrategy.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,7 +79,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="Config\config.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

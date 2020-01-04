@@ -1,0 +1,17 @@
+{
+	"Tax" : {
+	   "Cost": {"Amount": 0.21},
+	   "Precision" : 2
+	},
+	"Discounts": [
+		{"DiscountAmount": {"Amount" : 0.15}, "HasPrecedence": false},
+		{"DiscountAmount": {"Amount" : 0.07}, "UPC" : 12345, "HasPrecedence" : false}
+	],
+	"AdditionalExpenses":[
+		{"Name": "Packing",   "Cost": 0.03, "ExpenseType": "Percentage"}
+	],
+	"CurrencyFormat": "USD",
+	"DiscountCalculationMode": "additive",
+	"Cap": 1,
+	"CapType": "Percentage"
+}

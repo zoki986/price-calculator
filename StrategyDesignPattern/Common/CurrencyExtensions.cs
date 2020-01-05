@@ -13,6 +13,9 @@ namespace StrategyDesignPattern.Common
 		public static IMoney Substract(this IMoney value, IMoney other)
 			=> (IMoney)Activator.CreateInstance(value.GetType(), (value.Amount) - (other.Amount));
 
+		public static Money Substract(this IMoney value, Money other)
+			=> new Money((value.Amount) - (other.Amount));
+
 		public static IMoney SubstractMany(this IMoney price, IEnumerable<IMoney> other)
 		{
 			foreach (var money in other)

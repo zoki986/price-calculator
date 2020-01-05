@@ -1,8 +1,5 @@
-﻿using StrategyDesignPattern.Interfaces;
-using StrategyDesignPattern.Models;
-using System;
+﻿using StrategyDesignPattern.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace StrategyDesignPattern.Common

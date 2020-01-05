@@ -8,20 +8,18 @@ namespace StrategyDesignPattern.Strategies
 {
 	public class PriceCalculationContext
 	{
-		private IPriceCalculation _calculator;
+		private IPriceCalculation _calculator = new PriceCalculator();
 		private PriceModifiersBuilder _priceModifiers;
 		public PriceCalculationContext() { }
 
 		public PriceCalculationContext(PriceModifiersBuilder priceModifiers)
 		{
 			_priceModifiers = priceModifiers ?? throw new ArgumentNullException(nameof(priceModifiers));
-			_calculator = priceModifiers.Calculator;
 		}
 
 		public void SetModifiers(PriceModifiersBuilder priceModifiers)
 		{
 			_priceModifiers = priceModifiers ?? throw new ArgumentNullException(nameof(priceModifiers));
-			_calculator = priceModifiers.Calculator;
 		}
 
 		public void CalculateAndReportPrice(IProduct product)

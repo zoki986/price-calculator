@@ -6,6 +6,6 @@ namespace StrategyDesignPattern.Interfaces
 	{
 		Money Cost { get; }
 		int Precision { get; }
-		IMoney ApllyPriceModifier(IProduct product);
+		Money ApllyPriceModifier(IProduct product);
 	}
 }

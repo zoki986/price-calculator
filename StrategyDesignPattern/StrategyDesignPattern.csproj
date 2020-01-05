@@ -52,9 +52,12 @@
     <Compile Include="Common\ExpensesExtensions.cs" />
     <Compile Include="Common\DecimalExtensions.cs" />
     <Compile Include="Common\DiscountExtensions.cs" />
+    <Compile Include="Common\PriceModifierExtensions.cs" />
     <Compile Include="Common\PropertyInfoExtensions.cs" />
     <Compile Include="Interfaces\IExpense.cs" />
     <Compile Include="Interfaces\IPriceCalculation.cs" />
+    <Compile Include="Interfaces\IPriceModifierBuilder.cs" />
+    <Compile Include="Interfaces\IResult.cs" />
     <Compile Include="Interfaces\ITax.cs" />
     <Compile Include="Builder\PriceModifiersBuilder.cs" />
     <Compile Include="PriceModifiers\DiscountCap.cs" />

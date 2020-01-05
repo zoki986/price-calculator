@@ -7,7 +7,7 @@ namespace StrategyDesignPattern.Common
 {
 	public static class ExpensesExtensions
 	{
-		public static IMoney SumExpenses(this IEnumerable<IExpense> expenses, IProduct product)
+		public static Money SumExpenses(this IEnumerable<IExpense> expenses, IProduct product)
 		{
 			var total = expenses.Sum(expense => expense.ApllyPriceModifier(product).Amount);
 			return new Money(total);

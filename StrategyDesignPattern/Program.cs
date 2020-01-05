@@ -2,7 +2,6 @@
 using StrategyDesignPattern.Common;
 using StrategyDesignPattern.Interfaces;
 using StrategyDesignPattern.Models;
-using StrategyDesignPattern.PriceCalculationStrategies;
 using StrategyDesignPattern.PriceModifiers;
 using StrategyDesignPattern.Strategies;
 using System;
@@ -35,20 +34,18 @@ namespace StrategyDesignPattern
 			context.SetModifiers(priceModifiersBuilder);
 			context.CalculateAndReportPrice(product);
 
-			tax = new TaxPriceModifier(new Money(.21M))
+			_ = new TaxPriceModifier(new Money(.21M))
 			.WithPrecision(Constants.MoneyRelatedPrecision);
-
-			IDiscount relativeDiscount = new Discount()
+			_ = new Discount()
 							.WithDiscount(new Money(.15M))
 							.WithPrecision(Constants.MoneyRelatedPrecision);
 
-			 specialDiscount = new SpecialDiscount()
+			_ = new SpecialDiscount()
 							.WithDiscount(new Money(.07M))
 							.WithUPC(12345)
 							.WithPrecision(Constants.MoneyRelatedPrecision);
-
-			var transport = new Expense("Transport", 2.2M, ValueType.Monetary);
-			var packaging = new Expense("Packaging", .01M, ValueType.Percentage);
+			_ = new Expense("Transport", 2.2M, ValueType.Monetary);
+			_ = new Expense("Packaging", .01M, ValueType.Percentage);
 
 			priceModifiersBuilder = new PriceModifiersBuilder()
 				.WithConfigurationFile(@"Config/config.txt");

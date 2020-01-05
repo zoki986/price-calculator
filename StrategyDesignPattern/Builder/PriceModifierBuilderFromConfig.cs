@@ -18,7 +18,7 @@ namespace StrategyDesignPattern.Builder
 			try
 			{
 				if (string.IsNullOrWhiteSpace(filePath))
-					return new PriceModifiersBuilder();
+					throw new ArgumentNullException(nameof(filePath));
 
 				PriceConfig priceConfig = ReadConfigFile(filePath);
 
@@ -43,7 +43,7 @@ namespace StrategyDesignPattern.Builder
 
 		private static PriceConfig ReadConfigFile(string filePath)
 		{
-			var root = GetApplicationRoot();
+			var root = GetApplicationRootPath();
 			var configContent = File.ReadAllText(Path.Combine(root, filePath));
 
 			return JsonConvert.DeserializeObject<PriceConfig>(configContent);
@@ -55,7 +55,7 @@ namespace StrategyDesignPattern.Builder
 			Func<IEnumerable<IDiscount>, IProduct, IMoney> multiply = PriceCalculationFunctions.MultypliDiscounts;
 			return string.IsNullOrWhiteSpace(priceConfig.DiscountCalculationMode) || priceConfig.DiscountCalculationMode.Equals("additive") ? additive : multiply;
 		}
-		public static string GetApplicationRoot()
+		public static string GetApplicationRootPath()
 		{
 			var exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
 			Regex appPathMatcher = new Regex(@"(?<!fil)[A-Za-z]:\\+[\S\s]*?(?=\\+bin)");

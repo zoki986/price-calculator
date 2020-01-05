@@ -5,9 +5,9 @@ using System.Globalization;
 
 namespace StrategyDesignPattern.Models
 {
-	public class PriceCalculationResult
+	public class PriceCalculationResult : IResult
 	{
-		public PriceCalculationResult WithProduct(IProduct product)
+		public PriceCalculationResult ForProduct(IProduct product)
 		{
 			this.product = product;
 			return this;
@@ -18,7 +18,7 @@ namespace StrategyDesignPattern.Models
 			Tax = tax.WithPrecision(Constants.DefaultPrecision);
 			return this;
 		}
-		public PriceCalculationResult WithPriceBefore(IMoney price)
+		public PriceCalculationResult WithInitialPrice(IMoney price)
 		{
 			Cost = price.WithPrecision(Constants.DefaultPrecision);
 			return this;

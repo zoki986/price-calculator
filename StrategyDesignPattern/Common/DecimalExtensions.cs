@@ -1,8 +1,5 @@
-﻿using StrategyDesignPattern.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Linq;
 
 namespace StrategyDesignPattern.Common
 {

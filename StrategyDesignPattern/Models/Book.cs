@@ -9,6 +9,9 @@ namespace StrategyDesignPattern.Models
 		public string Name { get; }
 		public int UPC { get; }
 		public IMoney Price { get; set; }
+		public Book()
+		{
+		}
 
 		public Book(string name, int UPC, IMoney price)
 		{

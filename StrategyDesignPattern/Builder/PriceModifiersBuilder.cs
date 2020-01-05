@@ -10,21 +10,17 @@ using ValueType = StrategyDesignPattern.Models.ValueType;
 
 namespace StrategyDesignPattern.Builder
 {
-	public class PriceModifiersBuilder
+	public class PriceModifiersBuilder : IPriceModifierBuilder
 	{
 		public ITax Tax { get; set; }
 		public List<IDiscount> Discounts { get; set; } = new List<IDiscount>();
 		public List<IExpense> AdditionalExpenses { get; set; } = new List<IExpense>();
-		
-		public NumberFormatInfo CurrencyFormat = new NumberFormatInfo() { CurrencySymbol = "$" };
-
-		public Func<IEnumerable<IDiscount>, IProduct, IMoney> DiscountCalculationMode = SumDiscounts;
-		public DiscountCap Cap;
-		public IPriceCalculation Calculator;
+		public NumberFormatInfo CurrencyFormat { get; set; } = new NumberFormatInfo() { CurrencySymbol = "$" };
+		public Func<IEnumerable<IDiscount>, IProduct, IMoney> DiscountCalculationMode { get; set; } = SumDiscounts;
+		public DiscountCap Cap { get; set; }
 
 		public PriceModifiersBuilder()
 		{
-			Calculator = new PriceCalculator();
 		}
 
 		public PriceModifiersBuilder WithCurrencyFormat(string simbol, bool suffix = true)

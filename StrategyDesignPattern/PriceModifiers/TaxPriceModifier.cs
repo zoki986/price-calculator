@@ -16,10 +16,10 @@ namespace StrategyDesignPattern.PriceModifiers
 			Precision = precision;
 		}
 
-		public IMoney ApllyPriceModifier(IProduct product)
+		public Money ApllyPriceModifier(IProduct product)
 		{
 			var amount = (Cost.Amount * product.Price.Amount).WithPrecision(Precision);
-			return (IMoney)Activator.CreateInstance(Cost.GetType(), amount);
+			return new Money(amount);
 		}
 
 		public TaxPriceModifier WithPrecision(int precision)

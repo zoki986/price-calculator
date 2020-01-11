@@ -101,7 +101,7 @@ namespace Tests
 		}
 
 		[Fact]
-		public void Product_Price_With_Precedence_DiscountApplied()
+		public void Product_Price_With_Precedence_DiscountApplied_Test()
 		{
 			priceModifiersBuilder
 			.WithTax(taxPercent20)

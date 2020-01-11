@@ -30,10 +30,9 @@ namespace PriceCalculator.PriceModifiers
 			return this;
 		}
 
-		public decimal ApllyPriceModifier(IProduct product)
+		public virtual decimal ApllyPriceModifier(IProduct product)
 		{
-			var amount = (product.Price * DiscountAmount).WithPrecision(Precision);
-			return amount;
+			return (product.Price * DiscountAmount).WithPrecision(Precision);
 		}
 		public override string ToString()
 		{

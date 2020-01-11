@@ -29,13 +29,12 @@ namespace PriceCalculator.PriceModifiers
 			Precision = precision;
 			return this;
 		}
-		new public decimal ApllyPriceModifier(IProduct product)
+		public override decimal ApllyPriceModifier(IProduct product)
 		{
 			if (product.UPC != UPC)
 				return 0;
 
-			var amount = (DiscountAmount * product.Price).WithPrecision(Precision);
-			return amount;
+			return (DiscountAmount * product.Price).WithPrecision(Precision);
 		}
 	}
 }

@@ -7,19 +7,18 @@ namespace PriceCalculator.PriceModifiers
 {
 	public class TaxPriceModifier : ITax
 	{
-		public Money Cost { get; set; }
+		public decimal Cost { get; set; }
 		public int Precision { get; set; }
 
-		public TaxPriceModifier(Money amount, int precision = 2)
+		public TaxPriceModifier(decimal amount, int precision = 2)
 		{
 			Cost = amount;
 			Precision = precision;
 		}
 
-		public Money ApllyPriceModifier(IProduct product)
+		public decimal ApllyPriceModifier(IProduct product)
 		{
-			var amount = (Cost.Amount * product.Price.Amount).WithPrecision(Precision);
-			return new Money(amount);
+			return (Cost* product.Price).WithPrecision(Precision);
 		}
 
 		public TaxPriceModifier WithPrecision(int precision)

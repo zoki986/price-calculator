@@ -1,20 +1,18 @@
 ﻿using PriceCalculator.Common;
 using PriceCalculator.Interfaces;
-using PriceCalculator.Models;
-using System;
 
 namespace PriceCalculator.PriceModifiers
 {
 	public class SpecialDiscount : Discount
 	{
 
-		new public SpecialDiscount WithDiscount(Money discount)
+		new public SpecialDiscount WithDiscount(decimal discount)
 		{
 			this.DiscountAmount = discount;
 			return this;
 		}
 
-		 public SpecialDiscount WithUPC(int upc)
+		public SpecialDiscount WithUPC(int upc)
 		{
 			UPC = upc;
 			return this;
@@ -31,13 +29,13 @@ namespace PriceCalculator.PriceModifiers
 			Precision = precision;
 			return this;
 		}
-		new public IMoney ApllyPriceModifier(IProduct product)
+		new public decimal ApllyPriceModifier(IProduct product)
 		{
 			if (product.UPC != UPC)
-				return (IMoney)Activator.CreateInstance(DiscountAmount.GetType(), 0);
+				return 0;
 
-			var amount = (DiscountAmount.Amount * product.Price.Amount).WithPrecision(Precision);
-			return (IMoney)Activator.CreateInstance(DiscountAmount.GetType(), amount);
+			var amount = (DiscountAmount * product.Price).WithPrecision(Precision);
+			return amount;
 		}
 	}
 }

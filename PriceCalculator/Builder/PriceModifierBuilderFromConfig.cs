@@ -36,6 +36,7 @@ namespace PriceCalculator.Builder
 			{
 				Console.WriteLine("Error reading from file");
 				Console.WriteLine(e.Message);
+				throw;
 			}
 
 			return modifiersBuilder;
@@ -49,10 +50,10 @@ namespace PriceCalculator.Builder
 			return JsonConvert.DeserializeObject<PriceConfig>(configContent);
 		}
 
-		private static Func<IEnumerable<IDiscount>, IProduct, IMoney> GetDiscountCalculationMethod(PriceConfig priceConfig)
+		private static Func<IEnumerable<IDiscount>, IProduct, decimal> GetDiscountCalculationMethod(PriceConfig priceConfig)
 		{
-			Func<IEnumerable<IDiscount>, IProduct, IMoney> additive = PriceCalculationFunctions.SumDiscounts;
-			Func<IEnumerable<IDiscount>, IProduct, IMoney> multiply = PriceCalculationFunctions.MultypliDiscounts;
+			Func<IEnumerable<IDiscount>, IProduct, decimal> additive = PriceCalculationFunctions.SumDiscounts;
+			Func<IEnumerable<IDiscount>, IProduct, decimal> multiply = PriceCalculationFunctions.MultypliDiscounts;
 			return string.IsNullOrWhiteSpace(priceConfig.DiscountCalculationMode) || priceConfig.DiscountCalculationMode.Equals("additive") ? additive : multiply;
 		}
 		public static string GetApplicationRootPath()

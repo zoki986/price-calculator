@@ -3,7 +3,6 @@ using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
 using PriceCalculator.PriceCalculationStrategies;
 using PriceCalculator.PriceModifiers;
-using PriceCalculator.Strategies;
 using Xunit;
 
 namespace Tests
@@ -15,9 +14,9 @@ namespace Tests
 		ITax taxPercent20 = PriceDependencies.GetTaxWithAmount(.20M);
 		ITax taxPercent21 = PriceDependencies.GetTaxWithAmount(.21M);
 
-		IDiscount relativeDiscount = new Discount().WithDiscount(new Money(.15M));
-		IDiscount specialDiscount = new SpecialDiscount().WithDiscount(new Money(.07M)).WithUPC(12345);
-		IDiscount specialDiscountWithPrecedence = new SpecialDiscount().WithDiscount(new Money(.07M)).WithUPC(12345).WithPrecedence();
+		IDiscount relativeDiscount = new Discount().WithDiscount(.15M);
+		IDiscount specialDiscount = new SpecialDiscount().WithDiscount(.07M).WithUPC(12345);
+		IDiscount specialDiscountWithPrecedence = new SpecialDiscount().WithDiscount(.07M).WithUPC(12345).WithPrecedence();
 
 		IExpense transport = PriceDependencies.GetExpense("Transport", 2.2m, ValueType.Monetary);
 		IExpense packaging = PriceDependencies.GetExpense("Packaging", .01M, ValueType.Percentage);
@@ -36,7 +35,7 @@ namespace Tests
 			var actual = priceResult.Total;
 			var expected = new Money(24.30M);
 
-			Assert.Equal(expected.Amount, actual.Amount);
+			Assert.Equal(expected.Amount, actual);
 		}
 
 		[Fact]
@@ -50,7 +49,7 @@ namespace Tests
 			var actual = priceResult.Total;
 			var expected = new Money(21.26M);
 
-			Assert.Equal(expected.Amount, actual.Amount);
+			Assert.Equal(expected.Amount, actual);
 		}
 
 		[Fact]
@@ -64,7 +63,7 @@ namespace Tests
 			decimal expectedPrice = 19.84M;
 			var actual = priceResult.Total;
 
-			Assert.Equal(expectedPrice, actual.Amount);
+			Assert.Equal(expectedPrice, actual);
 		}
 
 		[Fact]
@@ -76,7 +75,7 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			decimal expectedPrice = 19.78M;
-			var actual = priceResult.Total.Amount;
+			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
 		}
@@ -95,7 +94,7 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			decimal expectedPrice = 22.44M;
-			var actual = priceResult.Total.Amount;
+			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
 		}
@@ -108,7 +107,7 @@ namespace Tests
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 			decimal expectedPrice = 24.5M;
-			var actual = priceResult.Total.Amount;
+			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
 		}
@@ -127,7 +126,7 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			decimal expectedPrice = 22.66M;
-			var actual = priceResult.Total.Amount;
+			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
 		}
@@ -145,7 +144,7 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			decimal expectedPrice = 20.45M;
-			var actual = priceResult.Total.Amount;
+			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
 		}
@@ -163,7 +162,7 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			decimal expectedPrice = 20.50M;
-			var actual = priceResult.Total.Amount;
+			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
 		}
@@ -183,7 +182,7 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			decimal expectedPrice = 20.87M;
-			var actual = priceResult.Total.Amount;
+			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
 		}
@@ -198,7 +197,7 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			decimal expectedPrice = 20.87M;
-			var actual = priceResult.Total.Amount;
+			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
 		}

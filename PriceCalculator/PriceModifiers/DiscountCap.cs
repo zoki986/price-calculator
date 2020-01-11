@@ -14,17 +14,17 @@ namespace PriceCalculator.PriceModifiers
 			CapType = type;
 			Cap = cap;
 		}
-		public IMoney GetMaxDiscount(IMoney money, IProduct product)
+		public decimal GetMaxDiscount(decimal discount, IProduct product)
 		{
-			var maxCap = GetMaxCap(product);
-			return maxCap <= money.Amount ? (IMoney)Activator.CreateInstance(money.GetType(), maxCap) : money;
+			var discountCap = GetDiscountCap(product);
+			return discount >= discountCap ? discountCap : discount;
 		}
-		private decimal GetMaxCap(IProduct product)
+		private decimal GetDiscountCap(IProduct product)
 		{
 			if (CapType == ValueType.Monetary)
 				return Cap;
 
-			return product.Price.Amount * Cap;
+			return product.Price * Cap;
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace PriceCalculator.Interfaces
 	{
 		string Name { get; }
 		int UPC { get; }
-		IMoney Price { get; set; }
+		decimal Price { get; set; }
 		string AsString(NumberFormatInfo formatInfo);
 	}
 }

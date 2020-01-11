@@ -1,5 +1,4 @@
 ﻿using PriceCalculator.Interfaces;
-using PriceCalculator.PriceCalculationStrategies;
 using PriceCalculator.PriceModifiers;
 using System;
 using System.Collections.Generic;
@@ -16,8 +15,8 @@ namespace PriceCalculator.Builder
 		public List<IDiscount> Discounts { get; set; } = new List<IDiscount>();
 		public List<IExpense> AdditionalExpenses { get; set; } = new List<IExpense>();
 		public NumberFormatInfo CurrencyFormat { get; set; } = new NumberFormatInfo() { CurrencySymbol = "$" };
-		public Func<IEnumerable<IDiscount>, IProduct, IMoney> DiscountCalculationMode { get; set; } = SumDiscounts;
-		public DiscountCap Cap { get; set; }
+		public Func<IEnumerable<IDiscount>, IProduct, decimal> DiscountCalculationMode { get; set; } = SumDiscounts;
+		public DiscountCap DiscountCap { get; set; }
 
 		public PriceModifiersBuilder()
 		{
@@ -26,7 +25,7 @@ namespace PriceCalculator.Builder
 		public PriceModifiersBuilder WithCurrencyFormat(string simbol, bool suffix = true)
 		{
 			CurrencyFormat = new NumberFormatInfo();
-			if (string.IsNullOrWhiteSpace(simbol) && Regex.IsMatch(simbol, "[A-Z]{3}"))
+			if (string.IsNullOrWhiteSpace(simbol) && !Regex.IsMatch(simbol, "[A-Z]{3}"))
 				simbol = "USD";
 
 			CurrencyFormat.CurrencySymbol = simbol;
@@ -64,7 +63,7 @@ namespace PriceCalculator.Builder
 
 		public PriceModifiersBuilder WithCap(decimal cap, ValueType type)
 		{
-			this.Cap = new DiscountCap(cap, type);
+			this.DiscountCap = new DiscountCap(cap, type);
 			return this;
 		}
 
@@ -84,7 +83,7 @@ namespace PriceCalculator.Builder
 			Tax = null;
 			Discounts = new List<IDiscount>();
 			AdditionalExpenses = new List<IExpense>();
-			Cap = null;
+			DiscountCap = null;
 		}
 	}
 

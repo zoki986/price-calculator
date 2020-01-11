@@ -44,22 +44,11 @@ namespace PriceCalculator.PriceCalculationStrategies
 	//	}
 	//}
 
-	public abstract class AbstractCalculator
-	{
-		protected abstract IMoney ApplyTax();
-		protected abstract IMoney SumAdditionalExpenses();
-		protected abstract IProduct ApplyPrecedenceDiscount();
-		protected abstract IMoney ApplyRegularDiscounts();
-		protected abstract IMoney CalculateTotal(Cost costs);
-		protected virtual void BuildPriceCalculationResult(Cost costs, IMoney total) { }
-	}
-
-	public class SimplePriceCalculator : AbstractCalculator, IPriceCalculation
+	public class SimplePriceCalculator : IPriceCalculation
 	{
 		private IPriceModifierBuilder _priceModifiers;
 		private IProduct _product;
 		private IProduct _productWithPrecedenceDiscount;
-		private PriceCalculationResult _priceCalculationResult;
 
 		public PriceCalculationResult GetPriceResultForProduct(IProduct product, PriceModifiersBuilder priceModifiers)
 		{
@@ -71,22 +60,21 @@ namespace PriceCalculator.PriceCalculationStrategies
 
 			var total = CalculateTotal(costs);
 
-			BuildPriceCalculationResult(costs, total);
-
-			return _priceCalculationResult;
+			return BuildPriceCalculationResult(costs, total);
 		}
-		private Cost CalculateCosts()
+
+		Cost CalculateCosts()
 		{
 			return new Cost(ApplyTax(), ApplyRegularDiscounts(), SumAdditionalExpenses());
 		}
-		private void SetProductAndModifiers(IProduct product, PriceModifiersBuilder priceModifiers)
+		void SetProductAndModifiers(IProduct product, PriceModifiersBuilder priceModifiers)
 		{
 			_priceModifiers = priceModifiers;
 			_product = product;
 		}
-		protected override void BuildPriceCalculationResult(Cost costs, IMoney total)
+		PriceCalculationResult BuildPriceCalculationResult(Cost costs, decimal total)
 		{
-			_priceCalculationResult = new PriceCalculationResult()
+		 return new PriceCalculationResult()
 						.ForProduct(_product)
 						.WithInitialPrice(_product.Price)
 						.WithExpenses(_priceModifiers.AdditionalExpenses)
@@ -95,43 +83,29 @@ namespace PriceCalculator.PriceCalculationStrategies
 						.WithTotal(total)
 						.WithFormat(_priceModifiers.CurrencyFormat);
 		}
-		protected override IMoney SumAdditionalExpenses()
+		decimal SumAdditionalExpenses()
 		{
 			return _priceModifiers.AdditionalExpenses.SumExpenses(_product);
 		}
-		protected override IMoney ApplyTax()
+		decimal ApplyTax()
 		{
 			return _priceModifiers.Tax.ApllyPriceModifier(this._productWithPrecedenceDiscount);
 		}
-		protected override IProduct ApplyPrecedenceDiscount()
+		IProduct ApplyPrecedenceDiscount()
 		{
-			return _priceModifiers.Discounts.ApplyPrecedence(_product);
+			return _priceModifiers.Discounts.ApplyPrecedence(_product,_priceModifiers);
 		}
-		protected override IMoney ApplyRegularDiscounts()
+		decimal ApplyRegularDiscounts()
 		{
 			return _priceModifiers
 								.Discounts
 								.Where(discount => !discount.HasPrecedence)
 								.WithDiscountCalculationStrategy(_priceModifiers.DiscountCalculationMode, _productWithPrecedenceDiscount)
-								.WithDiscountCap(_priceModifiers.Cap, _product);
+								.WithDiscountCap(_priceModifiers.DiscountCap, _product);
 		}
-		protected override IMoney CalculateTotal(Cost costs)
+		decimal CalculateTotal(Cost costs)
 		{
 			return _productWithPrecedenceDiscount.Price.SumWith(costs.Tax).SumWith(costs.Expenses).Substract(costs.Discounts).WithPrecision(Constants.DefaultPrecision);
 		}
-	}
-
-	public class Cost
-	{
-		public Cost(IMoney tax, IMoney discounts, IMoney expenses)
-		{
-			Tax = tax;
-			Discounts = discounts;
-			Expenses = expenses;
-		}
-
-		public IMoney Tax { get; }
-		public IMoney Discounts { get; }
-		public IMoney Expenses { get; }
 	}
 }

@@ -8,20 +8,17 @@ namespace PriceCalculator.PriceCalculationStrategies
 {
 	public class PriceCalculationFunctions
 	{
-		public static IMoney SumDiscounts(IEnumerable<IDiscount> discounts, IProduct product)
+		public static decimal SumDiscounts(IEnumerable<IDiscount> discounts, IProduct product)
 		{
-			var discountsSumed = discounts.Aggregate(0M, (prev, next) => prev + next.ApllyPriceModifier(product).Amount);
-			return (IMoney)Activator.CreateInstance(product.Price.GetType(), discountsSumed);
+			return discounts.Aggregate(0M, (prev, next) => prev + next.ApllyPriceModifier(product));
 		}
-		public static IMoney MultypliDiscounts(IEnumerable<IDiscount> discounts, IProduct product)
+		public static decimal MultypliDiscounts(IEnumerable<IDiscount> discounts, IProduct product)
 		{
-			var productPrice = product.Price.Amount;
-			var discountsMultiplied = discounts.Aggregate(0M, (prev, next) => Calculate(prev, next, productPrice));
-			return (IMoney)Activator.CreateInstance(product.Price.GetType(), discountsMultiplied);
+			return discounts.Aggregate(0M, (prev, next) => Calculate(prev, next, product.Price));
 		}
 		private static decimal Calculate(decimal prev, IDiscount next, decimal productPrice)
 		{
-			return (((productPrice - prev) * next.DiscountAmount.Amount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
+			return (((productPrice - prev) * next.DiscountAmount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
 		}
 	}
 }

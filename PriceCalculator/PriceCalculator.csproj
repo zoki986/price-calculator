@@ -60,6 +60,9 @@
     <Compile Include="Interfaces\IResult.cs" />
     <Compile Include="Interfaces\ITax.cs" />
     <Compile Include="Builder\PriceModifiersBuilder.cs" />
+    <Compile Include="Models\Cost.cs" />
+    <Compile Include="PriceCalculationStrategies\AbstractCalculator.cs" />
+    <Compile Include="PriceCalculationStrategies\AbstractOperation.cs" />
     <Compile Include="PriceModifiers\DiscountCap.cs" />
     <Compile Include="PriceModifiers\Expense.cs" />
     <Compile Include="Models\PriceCalculationResult.cs" />
@@ -70,7 +73,7 @@
     <Compile Include="PriceModifiers\SpecialDiscount.cs" />
     <Compile Include="PriceModifiers\TaxPriceModifier.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
-    <Compile Include="Strategies\PriceCalculationContext.cs" />
+    <Compile Include="Context\PriceCalculationContext.cs" />
     <Compile Include="Models\Money.cs" />
     <Compile Include="Interfaces\IMoney.cs" />
     <Compile Include="Interfaces\IProduct.cs" />

@@ -11,7 +11,7 @@ namespace PriceCalculator.Interfaces
 		List<IDiscount> Discounts { get; set; }
 		List<IExpense> AdditionalExpenses { get; set; }
 		NumberFormatInfo CurrencyFormat { get; }
-		Func<IEnumerable<IDiscount>, IProduct, IMoney> DiscountCalculationMode { get; }
-		DiscountCap Cap { get; set; }
+		Func<IEnumerable<IDiscount>, IProduct, decimal> DiscountCalculationMode { get; }
+		DiscountCap DiscountCap { get; set; }
 	}
 }

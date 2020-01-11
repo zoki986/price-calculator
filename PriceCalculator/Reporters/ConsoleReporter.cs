@@ -20,8 +20,7 @@ namespace PriceCalculator.Reporters
 			{
 				if (prop.IsOfType<IEnumerable<IExpense>>(result))
 				{
-					var expenses = prop.GetPropertyOfType<IExpense>(result);
-					WriteAdditionalExpensesToConsole(expenses, result);
+					WriteAdditionalExpensesToConsole(result);
 				}
 				else
 				{
@@ -31,21 +30,21 @@ namespace PriceCalculator.Reporters
 			WriteLine();
 		}
 
-		private static void WriteAdditionalExpensesToConsole(IEnumerable<IExpense> expenses, PriceCalculationResult result)
+		private static void WriteAdditionalExpensesToConsole(PriceCalculationResult result)
 		{
-			foreach (var expense in expenses)
+			foreach (var expense in result.Expenses)
 			{
-				Write($"{expense.Name} - {expense.Cost.FormatCurrency(result.currencyFormat)} {Environment.NewLine}");
+				WriteLine($"{expense.AsString(result)}");
 			}
 		}
 
 		private static void WritePriceToConsole(PropertyInfo property, PriceCalculationResult result)
 		{
-			var propValue = property.GetValueAsType<IMoney>(result);
-			if (property.Name.Equals(nameof(result.Discounts)) && propValue.Amount == 0)
+			var propValue = property.GetValueAsType(result);
+			if (property.Name.Equals(nameof(result.Discounts)) && propValue == 0)
 				return;
 
-			Write($"{property.Name} - {propValue.FormatCurrency(result.currencyFormat)} {Environment.NewLine}");
+			WriteLine($"{property.Name} - {propValue.FormatCurrency(result.currencyFormat)}");
 		}
 	}
 }

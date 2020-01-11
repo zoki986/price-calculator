@@ -1,5 +1,6 @@
-﻿using PriceCalculator.Interfaces;
-using System;
+﻿using PriceCalculator.Common;
+using PriceCalculator.Interfaces;
+using PriceCalculator.Models;
 using ValueType = PriceCalculator.Models.ValueType;
 
 namespace PriceCalculator.PriceModifiers
@@ -16,19 +17,22 @@ namespace PriceCalculator.PriceModifiers
 			Cost = amount;
 		}
 
-		public IMoney ApllyPriceModifier(IProduct product)
+		public decimal ApllyPriceModifier(IProduct product)
 		{
-			var moneyType = product.Price.GetType();
 			if (ExpenseType == ValueType.Monetary)
-				return (IMoney)Activator.CreateInstance(moneyType, Cost);
+				return Cost;
 
-			Cost = (Cost * product.Price.Amount);
-			return (IMoney)Activator.CreateInstance(moneyType, Cost);
+			return (Cost * product.Price);
+		}
+
+		public string AsString(PriceCalculationResult res)
+		{
+			return  $"{res.GetExpenseAmountFormated(this)}";
 		}
 
 		public override string ToString()
 		{
-			return $"{Name} = {Cost}";
+			return Name;
 		}
 	}
 }

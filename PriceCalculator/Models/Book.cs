@@ -8,12 +8,12 @@ namespace PriceCalculator.Models
 	{
 		public string Name { get; }
 		public int UPC { get; }
-		public IMoney Price { get; set; }
+		public decimal Price { get; set; }
 		public Book()
 		{
 		}
 
-		public Book(string name, int UPC, IMoney price)
+		public Book(string name, int UPC, decimal price)
 		{
 			Name = name;
 			this.UPC = UPC;
@@ -27,7 +27,7 @@ namespace PriceCalculator.Models
 
 		public string AsString(NumberFormatInfo formatInfo)
 		{
-			return $"{Name}, UPC - {UPC} and Price - {Price.Amount.ToString("C", formatInfo)}";
+			return $"{Name}, UPC - {UPC} and Price - {Price.ToString("C", formatInfo)}";
 		}
 	}
 }

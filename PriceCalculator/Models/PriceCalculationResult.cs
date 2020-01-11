@@ -13,17 +13,17 @@ namespace PriceCalculator.Models
 			return this;
 		}
 
-		public PriceCalculationResult WithTax(IMoney tax)
+		public PriceCalculationResult WithTax(decimal tax)
 		{
 			Tax = tax.WithPrecision(Constants.DefaultPrecision);
 			return this;
 		}
-		public PriceCalculationResult WithInitialPrice(IMoney price)
+		public PriceCalculationResult WithInitialPrice(decimal price)
 		{
 			Cost = price.WithPrecision(Constants.DefaultPrecision);
 			return this;
 		}
-		public PriceCalculationResult WithDiscounts(IMoney discount)
+		public PriceCalculationResult WithDiscounts(decimal discount)
 		{
 			Discounts = discount.WithPrecision(Constants.DefaultPrecision);
 			return this;
@@ -34,7 +34,7 @@ namespace PriceCalculator.Models
 			return this;
 		}
 
-		public PriceCalculationResult WithTotal(IMoney total)
+		public PriceCalculationResult WithTotal(decimal total)
 		{
 			Total = total.WithPrecision(Constants.DefaultPrecision);
 			return this;
@@ -48,11 +48,11 @@ namespace PriceCalculator.Models
 
 		public IProduct product;
 		public NumberFormatInfo currencyFormat;
-		public IMoney Cost { get; set; }
-		public IMoney Tax { get; set; }
-		public IMoney Discounts { get; set; }
+		public decimal Cost { get; set; }
+		public decimal Tax { get; set; }
+		public decimal Discounts { get; set; }
 		public IEnumerable<IExpense> Expenses { get; set; }
-		public IMoney Total { get; set; }
+		public decimal Total { get; set; }
 
 	}
 }

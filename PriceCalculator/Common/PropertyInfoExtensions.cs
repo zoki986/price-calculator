@@ -6,9 +6,9 @@ namespace PriceCalculator.Common
 {
 	public static class PropertyInfoExtensions
 	{
-		public static T GetValueAsType<T>(this PropertyInfo property, PriceCalculationResult calculationResult) where T : class
+		public static decimal GetValueAsType(this PropertyInfo property, PriceCalculationResult calculationResult)
 		{
-			return property.GetValue(calculationResult) as T;
+			return (decimal)property.GetValue(calculationResult);
 		}
 
 		public static IEnumerable<T> GetPropertyOfType<T>(this PropertyInfo property, PriceCalculationResult result) where T : class

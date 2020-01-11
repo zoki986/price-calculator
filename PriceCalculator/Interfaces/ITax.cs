@@ -4,8 +4,8 @@ namespace PriceCalculator.Interfaces
 {
 	public interface ITax
 	{
-		Money Cost { get; }
+		decimal Cost { get; }
 		int Precision { get; }
-		Money ApllyPriceModifier(IProduct product);
+		decimal ApllyPriceModifier(IProduct product);
 	}
 }

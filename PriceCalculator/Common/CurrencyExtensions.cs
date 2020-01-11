@@ -32,15 +32,6 @@ namespace PriceCalculator.Common
 			return (IMoney)Activator.CreateInstance(typeof(Money), total);
 		}
 
-		public static IMoney SumWith(this IMoney value, IMoney other)
-		{
-			if (other == null)
-				return value;
-
-			return (IMoney)Activator.CreateInstance(value.GetType(), (value.Amount) + (other.Amount));
-		}
-		public static IMoney WithDiscountCap(this IMoney money, DiscountCap cap, IProduct product)
-			 => cap == null ? money : cap.GetMaxDiscount(money, product);
 
 		public static IMoney WithPrecision(this IMoney money, int precision)
 		{

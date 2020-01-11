@@ -7,12 +7,12 @@ namespace PriceCalculator.PriceModifiers
 {
 	public class Discount : IDiscount
 	{
-		public Money DiscountAmount { get; set; }
+		public decimal DiscountAmount { get; set; }
 		public int Precision { get;  set; } = 2;
 		public bool HasPrecedence { get; set; }
 		public int UPC { get; set; }
 
-		public Discount WithDiscount(Money discount)
+		public Discount WithDiscount(decimal discount)
 		{
 			this.DiscountAmount = discount;
 			return this;
@@ -30,10 +30,10 @@ namespace PriceCalculator.PriceModifiers
 			return this;
 		}
 
-		public IMoney ApllyPriceModifier(IProduct product)
+		public decimal ApllyPriceModifier(IProduct product)
 		{
-			var amount = (product.Price.Amount * DiscountAmount.Amount).WithPrecision(Precision);
-			return (IMoney)Activator.CreateInstance(DiscountAmount.GetType(), amount);
+			var amount = (product.Price * DiscountAmount).WithPrecision(Precision);
+			return amount;
 		}
 		public override string ToString()
 		{

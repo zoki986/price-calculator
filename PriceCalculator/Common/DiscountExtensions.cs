@@ -1,4 +1,5 @@
 ﻿using PriceCalculator.Interfaces;
+using PriceCalculator.PriceModifiers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace PriceCalculator.Common
 		}
 		public static decimal SumDiscounts(this IEnumerable<IDiscount> discounts, IProduct product)
 		{
-			return discounts.Aggregate(0M, (prev, next) => prev + next.ApllyPriceModifier(product));
+			return discounts.Cast<Discount>().Aggregate(0M, (prev, next) => prev + next.ApllyPriceModifier(product));
 		}
 
 		public static decimal MultypliDiscounts(this IEnumerable<IDiscount> discounts, IProduct product)

@@ -25,7 +25,7 @@ namespace Tests
 		PriceModifiersBuilder priceModifiersBuilder = new PriceModifiersBuilder();
 
 		[Fact]
-		public void PriceWithTax()
+		public void PriceWithTax20Percent()
 		{
 			priceModifiersBuilder
 			.WithTax(taxPercent20);
@@ -39,7 +39,21 @@ namespace Tests
 		}
 
 		[Fact]
-		public void PriceWithRelativeDiscount()
+		public void PriceWithTax21Percent()
+		{
+			priceModifiersBuilder
+			.WithTax(taxPercent21);
+
+			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
+
+			var actual = priceResult.Total;
+			var expected = new Money(24.50M);
+
+			Assert.Equal(expected.Amount, actual);
+		}
+
+		[Fact]
+		public void PriceWithGeneralDiscount()
 		{
 			priceModifiersBuilder
 			.WithTax(taxPercent20).WithDiscount(relativeDiscount);
@@ -53,10 +67,12 @@ namespace Tests
 		}
 
 		[Fact]
-		public void PriceWithSpecialDiscount()
+		public void PriceWithSpecialDiscount_20PercentTax()
 		{
 			priceModifiersBuilder
-			.WithTax(taxPercent20).WithDiscount(relativeDiscount).WithDiscount(specialDiscount);
+			.WithTax(taxPercent20)
+			.WithDiscount(relativeDiscount)
+			.WithDiscount(specialDiscount);
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 

@@ -44,7 +44,7 @@ namespace PriceCalculator.Reporters
 			if (property.Name.Equals(nameof(result.Discounts)) && propValue == 0)
 				return;
 
-			WriteLine($"{property.Name} - {propValue.FormatCurrency(result.currencyFormat)}");
+			WriteLine($"{property.Name} - {propValue.FormatDecimal(result.currencyFormat)}");
 		}
 	}
 }

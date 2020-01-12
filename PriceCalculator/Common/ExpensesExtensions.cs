@@ -16,8 +16,8 @@ namespace PriceCalculator.Common
 		public static string GetExpenseAmountFormated(this PriceCalculationResult result, Expense expense)
 		{
 			return expense.ExpenseType == ValueType.Monetary
-				? $"{expense} = {expense.Cost.FormatCurrency(result.currencyFormat)}"
-				: $"{expense} - {(expense.Cost * 100).WithPrecision(0)} % = {expense.ApllyPriceModifier(result.product).FormatCurrency(result.currencyFormat)}";
+				? $"{expense} = {expense.Cost.FormatDecimal(result.currencyFormat)}"
+				: $"{expense} - {(expense.Cost * 100).WithPrecision(0)} % = {expense.ApllyPriceModifier(result.product).FormatDecimal(result.currencyFormat)}";
 		}
 	}
 }

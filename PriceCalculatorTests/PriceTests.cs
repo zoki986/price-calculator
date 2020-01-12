@@ -3,6 +3,7 @@ using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
 using PriceCalculator.PriceCalculationStrategies;
 using PriceCalculator.PriceModifiers;
+using PriceCalculator.Common;
 using Xunit;
 
 namespace Tests
@@ -22,7 +23,7 @@ namespace Tests
 		IExpense transport = PriceDependencies.GetExpense("Transport", 2.2m, ValueType.Monetary);
 		IExpense packaging = PriceDependencies.GetExpense("Packaging", .01M, ValueType.Percentage);
 
-		IPriceCalculation priceCalculator = new SimplePriceCalculator();
+		IPriceCalculation priceCalculator = new PriceCalculatorV2();
 		PriceModifiersBuilder priceModifiersBuilder = new PriceModifiersBuilder();
 
 		[Fact]
@@ -34,9 +35,9 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			var actual = priceResult.Total;
-			var expected = new Money(24.30M);
+			var expected = 24.30M;
 
-			Assert.Equal(expected.Amount, actual);
+			Assert.Equal(expected, actual);
 		}
 
 		[Fact]
@@ -48,9 +49,9 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			var actual = priceResult.Total;
-			var expected = new Money(24.50M);
+			var expected = 24.50M;
 
-			Assert.Equal(expected.Amount, actual);
+			Assert.Equal(expected, actual);
 		}
 
 		[Fact]
@@ -63,9 +64,9 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			var actual = priceResult.Total;
-			var expected = new Money(21.26M);
+			var expected = 21.26M;
 
-			Assert.Equal(expected.Amount, actual);
+			Assert.Equal(expected, actual);
 		}
 
 		[Fact]
@@ -101,7 +102,7 @@ namespace Tests
 		}
 
 		[Fact]
-		public void Product_Price_With_Precedence_DiscountApplied_Test()
+		public void Product_Price_With_Precedence_DiscountApplied()
 		{
 			priceModifiersBuilder
 			.WithTax(taxPercent20)
@@ -220,6 +221,24 @@ namespace Tests
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
+		}
+
+		[Fact]
+		public void Product_Price_With_Custom_Currency_Format()
+		{
+			priceModifiersBuilder
+				.WithDiscount(universalDiscount)
+				.WithTax(taxPercent21)
+				.WithDiscount(specialDiscountSpecificForProduct)
+				.WithCap(4M, ValueType.Monetary)
+				.WithAdditiveCalculation()
+				.WithCurrencyFormat("USD");
+
+			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
+			string actual = priceResult.Total.FormatDecimal(priceResult.currencyFormat);
+			string expectedFormt = "20.50 USD";
+
+			Assert.Equal(expectedFormt, actual);
 		}
 
 		[Fact]

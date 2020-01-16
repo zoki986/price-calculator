@@ -57,7 +57,7 @@
     <Compile Include="Interfaces\IPriceModifierBuilder.cs" />
     <Compile Include="Interfaces\IResult.cs" />
     <Compile Include="Interfaces\ITax.cs" />
-    <Compile Include="Builder\PriceModifiersBuilder.cs" />
+    <Compile Include="Builder\PriceModifiers.cs" />
     <Compile Include="Models\Costs.cs" />
     <Compile Include="Operations\Implementations\AdditionalExpensesHandler.cs" />
     <Compile Include="Operations\Implementations\CostsCalculatorHandler.cs" />

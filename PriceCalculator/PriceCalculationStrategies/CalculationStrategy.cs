@@ -12,7 +12,7 @@ namespace PriceCalculator.PriceCalculationStrategies
 		ICostsCalculationHandler CostsCalculationHandler { get; set; } = new CostsCalculatorHandler();
 		IPriceResultHandler PriceResultHandler { get; set; } = new PriceResultHandler();
 
-		public PriceCalculationResult GetPriceResultForProduct(IProduct product, PriceModifiersBuilder priceModifiers)
+		public PriceCalculationResult GetPriceResultForProduct(IProduct product, Builder.PriceModifiers priceModifiers)
 		{
 			var productWithPrecedenceDiscount = PrecedenceHandler.GetResult(product, priceModifiers);
 

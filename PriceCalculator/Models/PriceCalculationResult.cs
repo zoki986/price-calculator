@@ -7,6 +7,15 @@ namespace PriceCalculator.Models
 {
 	public class PriceCalculationResult : IResult
 	{
+
+		public IProduct product;
+		public NumberFormatInfo currencyFormat;
+		public decimal Cost { get; set; }
+		public decimal Tax { get; set; }
+		public decimal Discounts { get; set; }
+		public IEnumerable<IExpense> Expenses { get; set; }
+		public decimal Total { get; set; }
+
 		public PriceCalculationResult ForProduct(IProduct product)
 		{
 			this.product = product;
@@ -45,14 +54,6 @@ namespace PriceCalculator.Models
 			this.currencyFormat = currencyFormat;
 			return this;
 		}
-
-		public IProduct product;
-		public NumberFormatInfo currencyFormat;
-		public decimal Cost { get; set; }
-		public decimal Tax { get; set; }
-		public decimal Discounts { get; set; }
-		public IEnumerable<IExpense> Expenses { get; set; }
-		public decimal Total { get; set; }
 
 	}
 }

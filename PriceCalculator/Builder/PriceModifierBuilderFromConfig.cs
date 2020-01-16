@@ -12,9 +12,9 @@ namespace PriceCalculator.Builder
 {
 	public static class PriceModifierBuilderFromConfig
 	{
-		public static PriceModifiersBuilder GetPriceModifierBuilder(string filePath)
+		public static PriceModifiers GetPriceModifierBuilder(string filePath)
 		{
-			PriceModifiersBuilder modifiersBuilder = new PriceModifiersBuilder();
+			PriceModifiers modifiersBuilder = new PriceModifiers();
 			try
 			{
 				if (string.IsNullOrWhiteSpace(filePath))

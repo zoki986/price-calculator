@@ -6,7 +6,7 @@ using PriceCalculator.Operations.Interfaces;
 
 namespace PriceCalculator.PriceCalculationStrategies
 {
-	public class PriceCalculatorV2 : IPriceCalculation
+	public class CalculationStrategy : IPriceCalculation
 	{
 		IPrecedenceHandler PrecedenceHandler { get; set; } = new PrecedenceHandler();
 		ICostsCalculationHandler CostsCalculationHandler { get; set; } = new CostsCalculatorHandler();
@@ -21,17 +21,17 @@ namespace PriceCalculator.PriceCalculationStrategies
 			return PriceResultHandler.GetResult(product, priceModifiers, costs);
 		}
 
-		public PriceCalculatorV2 WithPrecedenceHandler(IPrecedenceHandler handler)
+		public CalculationStrategy WithPrecedenceHandler(IPrecedenceHandler handler)
 		{
 			PrecedenceHandler = handler;
 			return this;
 		}
-		public PriceCalculatorV2 WithCostCalcutaionHandler(ICostsCalculationHandler handler)
+		public CalculationStrategy WithCostCalcutaionHandler(ICostsCalculationHandler handler)
 		{
 			CostsCalculationHandler = handler;
 			return this;
 		}
-		public PriceCalculatorV2 WithPriceResultHandler(IPriceResultHandler handler)
+		public CalculationStrategy WithPriceResultHandler(IPriceResultHandler handler)
 		{
 			PriceResultHandler = handler;
 			return this;

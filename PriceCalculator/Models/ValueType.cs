@@ -1,4 +1,4 @@
 ﻿namespace PriceCalculator.Models
 {
-	public enum ValueType { Percentage, Monetary };
+	public enum CostType { Percentage, Monetary };
 }

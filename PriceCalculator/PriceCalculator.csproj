@@ -73,12 +73,11 @@
     <Compile Include="Operations\Interfaces\IPriceResultHandler.cs" />
     <Compile Include="Operations\Interfaces\ITaxHandler.cs" />
     <Compile Include="Operations\Interfaces\ITotalCostHandler.cs" />
-    <Compile Include="PriceCalculationStrategies\PriceCalculatorV2.cs" />
+    <Compile Include="PriceCalculationStrategies\CalculationStrategy.cs" />
     <Compile Include="PriceModifiers\DiscountCap.cs" />
     <Compile Include="PriceModifiers\Expense.cs" />
     <Compile Include="Models\PriceCalculationResult.cs" />
     <Compile Include="Models\PriceConfig.cs" />
-    <Compile Include="PriceCalculationStrategies\PriceCalculatorV1.cs" />
     <Compile Include="Models\ValueType.cs" />
     <Compile Include="PriceCalculationStrategies\PriceCalculationFunctions.cs" />
     <Compile Include="PriceModifiers\SpecialDiscount.cs" />

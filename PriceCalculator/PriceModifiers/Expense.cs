@@ -1,25 +1,24 @@
 ﻿using PriceCalculator.Common;
 using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
-using ValueType = PriceCalculator.Models.ValueType;
 
 namespace PriceCalculator.PriceModifiers
 {
 	public class Expense : IExpense
 	{
 		public string Name { get; set; }
-		public ValueType ExpenseType { get; }
+		public CostType ExpenseType { get; }
 		public decimal Cost { get; set; }
-		public Expense(string name, decimal amount, ValueType expenseType)
+		public Expense(string name, decimal amount, CostType costType)
 		{
 			Name = name;
-			ExpenseType = expenseType;
+			ExpenseType = costType;
 			Cost = amount;
 		}
 
 		public decimal ApllyPriceModifier(IProduct product)
 		{
-			if (ExpenseType == ValueType.Monetary)
+			if (ExpenseType == CostType.Monetary)
 				return Cost;
 
 			return (Cost * product.Price);
@@ -27,7 +26,7 @@ namespace PriceCalculator.PriceModifiers
 
 		public string AsString(PriceCalculationResult res)
 		{
-			return  $"{res.GetExpenseAmountFormated(this)}";
+			return $"{res.GetExpenseAmountFormated(this)}";
 		}
 
 		public override string ToString()

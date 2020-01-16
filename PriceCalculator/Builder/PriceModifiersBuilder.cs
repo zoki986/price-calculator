@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using static PriceCalculator.PriceCalculationStrategies.PriceCalculationFunctions;
-using ValueType = PriceCalculator.Models.ValueType;
+using CostType = PriceCalculator.Models.CostType;
 
 namespace PriceCalculator.Builder
 {
@@ -61,7 +61,7 @@ namespace PriceCalculator.Builder
 			return this;
 		}
 
-		public PriceModifiersBuilder WithCap(decimal cap, ValueType type)
+		public PriceModifiersBuilder WithCap(decimal cap, CostType type)
 		{
 			this.DiscountCap = new DiscountCap(cap, type);
 			return this;

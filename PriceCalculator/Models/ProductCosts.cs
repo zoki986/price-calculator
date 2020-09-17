@@ -2,16 +2,16 @@
 
 namespace PriceCalculator.Models
 {
-	public class Costs
+	public class ProductCosts
 	{
-		public Costs(decimal tax, decimal discounts, decimal expenses)
+		public ProductCosts(decimal tax, decimal discounts, decimal expenses)
 		{
 			Tax = tax;
 			Discounts = discounts;
 			Expenses = expenses;
 		}
 
-		public Costs(Costs costs, decimal total)
+		public ProductCosts(ProductCosts costs, decimal total)
 		{
 			Tax = costs.Tax;
 			Discounts = costs.Discounts;

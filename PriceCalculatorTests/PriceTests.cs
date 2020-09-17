@@ -20,10 +20,10 @@ namespace Tests
 		IDiscount nonSpecialDiscount = new SpecialDiscount().WithDiscount(.07M).WithUPC(789);
 		IDiscount specialDiscountWithPrecedence = new SpecialDiscount().WithDiscount(.07M).WithUPC(12345).WithPrecedence();
 
-		IExpense transport = PriceDependencies.GetExpense("Transport", 2.2m, ValueType.Monetary);
-		IExpense packaging = PriceDependencies.GetExpense("Packaging", .01M, ValueType.Percentage);
+		IExpense transport = PriceDependencies.GetExpense("Transport", 2.2m, CostType.Monetary);
+		IExpense packaging = PriceDependencies.GetExpense("Packaging", .01M, CostType.Percentage);
 
-		IPriceCalculation priceCalculator = new PriceCalculatorV2();
+		IPriceCalculation priceCalculator = new CalculationStrategy();
 		PriceModifiersBuilder priceModifiersBuilder = new PriceModifiersBuilder();
 
 		[Fact]
@@ -194,7 +194,7 @@ namespace Tests
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
-				.WithCap(.20M, ValueType.Percentage)
+				.WithCap(.20M, CostType.Percentage)
 				.WithAdditiveCalculation();
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
@@ -212,7 +212,7 @@ namespace Tests
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
-				.WithCap(4M, ValueType.Monetary)
+				.WithCap(4M, CostType.Monetary)
 				.WithAdditiveCalculation();
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
@@ -230,7 +230,7 @@ namespace Tests
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
-				.WithCap(4M, ValueType.Monetary)
+				.WithCap(4M, CostType.Monetary)
 				.WithAdditiveCalculation()
 				.WithCurrencyFormat("USD");
 
@@ -244,7 +244,7 @@ namespace Tests
 		[Fact]
 		public void Product_Price_With_Additional_Precision()
 		{
-			var transport = PriceDependencies.GetExpense("Transport", 0.03M, ValueType.Percentage);
+			var transport = PriceDependencies.GetExpense("Transport", 0.03M, CostType.Percentage);
 
 			priceModifiersBuilder = new PriceModifiersBuilder()
 			   .WithDiscount(universalDiscount)

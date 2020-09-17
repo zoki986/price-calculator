@@ -7,7 +7,7 @@ namespace PriceCalculator.Operations.Implementations
 {
 	public class TotalCostHandler : ITotalCostHandler
 	{
-		public Costs GetResult(IProduct product, Costs costs)
+		public ProductCosts GetResult(IProduct product, ProductCosts costs)
 		{
 			var total = product
 					   .Price
@@ -16,7 +16,7 @@ namespace PriceCalculator.Operations.Implementations
 					   .Substract(costs.Discounts)
 				       .WithPrecision(Constants.DefaultPrecision);
 
-			return new Costs(costs, total);
+			return new ProductCosts(costs, total);
 		}
 	}
 }

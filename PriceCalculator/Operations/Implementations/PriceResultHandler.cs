@@ -6,7 +6,7 @@ namespace PriceCalculator.Operations.Implementations
 {
 	public class PriceResultHandler : IPriceResultHandler
 	{
-		public PriceCalculationResult GetResult(IProduct product, IPriceModifierBuilder priceModifiers, Costs costs)
+		public PriceCalculationResult GetResult(IProduct product, IPriceModifierBuilder priceModifiers, ProductCosts costs)
 		{
 			return new PriceCalculationResult()
 			   .ForProduct(product)

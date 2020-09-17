@@ -33,13 +33,13 @@ namespace PriceCalculator.Operations.Implementations
 			return this;
 		}
 
-		public Costs GetCosts(IProduct product, IPriceModifierBuilder priceModifiers, IProduct precedenceDiscountProduct)
+		public ProductCosts GetProductCosts(IProduct product, IPriceModifierBuilder priceModifiers, IProduct precedenceDiscountProduct)
 		{
 			var tax = TaxHandler.GetResult(precedenceDiscountProduct, priceModifiers);
 			var discounts = DiscountHandler.GetResult(product, priceModifiers, precedenceDiscountProduct);
 			var expenses = ExpenseHandler.GetResult(product, priceModifiers);
 
-			return TotalCostHandler.GetResult(precedenceDiscountProduct, new Costs(tax, discounts, expenses));
+			return TotalCostHandler.GetResult(precedenceDiscountProduct, new ProductCosts(tax, discounts, expenses));
 		}
 	}
 }

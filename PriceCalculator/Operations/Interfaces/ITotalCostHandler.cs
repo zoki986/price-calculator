@@ -5,6 +5,6 @@ namespace PriceCalculator.Operations.Interfaces
 {
 	public interface ITotalCostHandler
 	{
-		Costs GetResult(IProduct product, Costs cost);
+		ProductCosts GetResult(IProduct product, ProductCosts cost);
 	}
 }

@@ -19,7 +19,7 @@ namespace PriceCalculator
 			var specialDiscount = new SpecialDiscount().WithDiscount(.07M).WithUPC(12345);
 
 			IPriceCalculation priceCalculation = new CalculationStrategy();
-			var priceModifiers = new Builder.PriceModifiers().WithTax(tax).WithDiscount(discount).WithDiscount(specialDiscount);
+			var priceModifiers = new PriceModifiersBuilder().WithTax(tax).WithDiscount(discount).WithDiscount(specialDiscount);
 
 			var result = priceCalculation.GetPriceResultForProduct(product, priceModifiers);
 

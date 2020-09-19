@@ -16,7 +16,7 @@ namespace PriceCalculator.PriceModifiers
 			Cost = amount;
 		}
 
-		public decimal ApllyPriceModifier(IProduct product)
+		public decimal ApllyPriceOperation(IProduct product)
 		{
 			if (ExpenseType == CostType.Monetary)
 				return Cost;
@@ -24,14 +24,9 @@ namespace PriceCalculator.PriceModifiers
 			return (Cost * product.Price);
 		}
 
-		public string AsString(PriceCalculationResult res)
-		{
-			return $"{res.GetExpenseAmountFormated(this)}";
-		}
+		public string AsString(PriceCalculationResult res) 
+			=> $"{res.GetExpenseAmountFormated(this)}";
 
-		public override string ToString()
-		{
-			return Name;
-		}
+		public override string ToString() => Name;
 	}
 }

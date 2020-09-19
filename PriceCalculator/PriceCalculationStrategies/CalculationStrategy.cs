@@ -2,6 +2,7 @@
 using PriceCalculator.Common;
 using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
+using PriceCalculator.PriceModifiers;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,41 +19,42 @@ namespace PriceCalculator.PriceCalculationStrategies
 
 		private ProductCosts CalculateProductCosts(IProduct product, PriceModifiersBuilder priceModifiers)
 		{
-			IProduct precedenceDiscountProduct = 
-				priceModifiers
-				.Discounts
-				.Where(discount => discount.HasPrecedence)
+			product.Price = priceModifiers
+				.ProductOperations
+				.OfType<IPrecedenceDiscount>()
 				.ApplyPrecedence(product, priceModifiers);
 
-			IEnumerable<IDiscount> regularDiscounts = priceModifiers.Discounts.Where(discount => !discount.HasPrecedence);
-
-			decimal tax = priceModifiers.Tax.ApllyPriceModifier(precedenceDiscountProduct);
+			decimal taxAmount = priceModifiers.ProductOperations.OfType<IProductTax>().ApplyPriceOperation(product);
 
 			decimal regularDiscountSum =
-					regularDiscounts
-					.WithDiscountCalculationStrategy(priceModifiers.DiscountCalculationMode, precedenceDiscountProduct)
+					priceModifiers
+					.ProductOperations
+					.OfType<IDiscount>()
+					.Where(po => po.GetType().GetInterface(nameof(IPrecedenceDiscount)) == null)
+					.WithDiscountCalculationStrategy(priceModifiers.DiscountCalculationMode, product)
 					.WithDiscountCap(priceModifiers.DiscountCap, product);
 
 			decimal aditionalExpenses =
 				priceModifiers
-				.AdditionalExpenses
+				.ProductOperations
+				.OfType<IExpense>()
 				.SumExpenses(product);
 
-			decimal finalPrice = precedenceDiscountProduct
+			decimal finalPrice = product
 					   .Price
-					   .SumWith(tax)
-					   .SumWith(aditionalExpenses)
+					   .Add(taxAmount)
+					   .Add(aditionalExpenses)
 					   .Substract(regularDiscountSum)
 					   .WithPrecision(Constants.DefaultPrecision);
 
-			return new ProductCosts(tax, regularDiscountSum, aditionalExpenses, finalPrice);
+			return new ProductCosts(taxAmount, regularDiscountSum, aditionalExpenses, finalPrice);
 		}
 
 		PriceCalculationResult BuildPriceCalculationResult(IProduct product, IPriceModifierBuilder priceModifiers, ProductCosts costs)
 			=> new PriceCalculationResult()
 			   .ForProduct(product)
 			   .WithInitialPrice(product.Price)
-			   .WithExpenses(priceModifiers.AdditionalExpenses)
+			   .WithExpenses(priceModifiers.ProductOperations.OfType<IExpense>())
 			   .WithTax(costs.Tax)
 			   .WithDiscounts(costs.Discounts)
 			   .WithTotal(costs.Total)

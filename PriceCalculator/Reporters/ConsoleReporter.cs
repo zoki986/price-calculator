@@ -17,7 +17,7 @@ namespace PriceCalculator.Reporters
 
 			foreach (var prop in props)
 			{
-				if (prop.IsOfType<IEnumerable<IExpense>>(result))
+				if (prop.IsOfType<IEnumerable<IExpense>>())
 				{
 					WriteAdditionalExpensesToConsole(result);
 				}
@@ -32,9 +32,7 @@ namespace PriceCalculator.Reporters
 		private static void WriteAdditionalExpensesToConsole(PriceCalculationResult result)
 		{
 			foreach (var expense in result.Expenses)
-			{
 				WriteLine($"{expense.AsString(result)}");
-			}
 		}
 
 		private static void WritePriceToConsole(PropertyInfo property, PriceCalculationResult result)

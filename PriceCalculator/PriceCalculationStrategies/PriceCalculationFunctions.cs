@@ -7,17 +7,11 @@ namespace PriceCalculator.PriceCalculationStrategies
 {
 	public class PriceCalculationFunctions
 	{
-		public static decimal SumDiscounts(IEnumerable<IDiscount> discounts, IProduct product)
-		{
-			return discounts.Aggregate(0M, (prev, next) => prev + next.ApllyPriceModifier(product));
-		}
-		public static decimal MultypliDiscounts(IEnumerable<IDiscount> discounts, IProduct product)
-		{
-			return discounts.Aggregate(0M, (prev, next) => CalculateDiscount(prev, next, product.Price));
-		}
-		private static decimal CalculateDiscount(decimal prev, IDiscount next, decimal productPrice)
-		{
-			return (((productPrice - prev) * next.DiscountAmount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
-		}
+		public static decimal SumDiscounts(IEnumerable<IDiscount> discounts, IProduct product) 
+			=> discounts.Aggregate(0M, (prev, next) => prev + next.ApllyPriceOperation(product));
+		public static decimal MultypliDiscounts(IEnumerable<IDiscount> discounts, IProduct product) 
+			=> discounts.Aggregate(0M, (prev, next) => CalculateDiscount(prev, next, product.Price));
+		private static decimal CalculateDiscount(decimal prev, IDiscount next, decimal productPrice) 
+			=> (((productPrice - prev) * next.DiscountAmount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
 	}
 }

@@ -11,9 +11,7 @@ namespace PriceCalculator.Builder
 {
 	public class PriceModifiersBuilder : IPriceModifierBuilder
 	{
-		public ITax Tax { get; set; }
-		public List<IDiscount> Discounts { get; set; } = new List<IDiscount>();
-		public List<IExpense> AdditionalExpenses { get; set; } = new List<IExpense>();
+		public List<IPriceModifier> ProductOperations { get; set; } = new List<IPriceModifier>();
 		public NumberFormatInfo CurrencyFormat { get; set; } = new NumberFormatInfo() { CurrencySymbol = "$" };
 		public Func<IEnumerable<IDiscount>, IProduct, decimal> DiscountCalculationMode { get; set; } = SumDiscounts;
 		public DiscountCap DiscountCap { get; set; }
@@ -37,21 +35,21 @@ namespace PriceCalculator.Builder
 			return this;
 		}
 
-		public PriceModifiersBuilder WithTax(ITax tax)
+		public PriceModifiersBuilder WithTax(IProductTax tax)
 		{
-			this.Tax = tax;
+			ProductOperations.Add(tax);
 			return this;
 		}
 
-		public PriceModifiersBuilder WithDiscount(params IDiscount[] discount)
+		public PriceModifiersBuilder WithDiscount(params IPriceModifier[] discount)
 		{
-			Discounts.AddRange(discount);
+			ProductOperations.AddRange(discount);
 			return this;
 		}
 
 		public PriceModifiersBuilder WithExpense(params IExpense[] expense)
 		{
-			AdditionalExpenses.AddRange(expense);
+			ProductOperations.AddRange(expense);
 			return this;
 		}
 
@@ -76,14 +74,6 @@ namespace PriceCalculator.Builder
 		public PriceModifiersBuilder WithConfigurationFile(string filePath)
 		{
 			return PriceModifierBuilderFromConfig.GetPriceModifierBuilder(filePath);
-		}
-
-		public void Reset()
-		{
-			Tax = null;
-			Discounts = new List<IDiscount>();
-			AdditionalExpenses = new List<IExpense>();
-			DiscountCap = null;
 		}
 	}
 

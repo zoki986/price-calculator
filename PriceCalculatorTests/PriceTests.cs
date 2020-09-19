@@ -12,13 +12,13 @@ namespace Tests
 	{
 		IProduct product = PriceDependencies.GetSimpleProduct();
 		
-		ITax taxPercent20 = PriceDependencies.GetTaxWithAmount(.20M);
-		ITax taxPercent21 = PriceDependencies.GetTaxWithAmount(.21M);
+		IProductTax taxPercent20 = PriceDependencies.GetTaxWithAmount(.20M);
+		IProductTax taxPercent21 = PriceDependencies.GetTaxWithAmount(.21M);
 
 		IDiscount universalDiscount = new Discount().WithDiscount(.15M);
-		IDiscount specialDiscountSpecificForProduct = new SpecialDiscount().WithDiscount(.07M).WithUPC(12345);
-		IDiscount nonSpecialDiscount = new SpecialDiscount().WithDiscount(.07M).WithUPC(789);
-		IDiscount specialDiscountWithPrecedence = new SpecialDiscount().WithDiscount(.07M).WithUPC(12345).WithPrecedence();
+		IDiscount specialDiscountSpecificForProduct = new SpecialUPCDiscount().WithDiscount(.07M).WithUPC(12345);
+		IDiscount nonSpecialDiscount = new SpecialUPCDiscount().WithDiscount(.07M).WithUPC(789);
+		IPriceModifier specialDiscountWithPrecedence = new PrecedenceDiscount().WithDiscount(.07M).WithUPC(12345);
 
 		IExpense transport = PriceDependencies.GetExpense("Transport", 2.2m, CostType.Monetary);
 		IExpense packaging = PriceDependencies.GetExpense("Packaging", .01M, CostType.Percentage);

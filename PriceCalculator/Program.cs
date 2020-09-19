@@ -16,7 +16,7 @@ namespace PriceCalculator
 
 			var tax = new TaxPriceModifier(.20M);
 			var discount = new Discount().WithDiscount(.15M);
-			var specialDiscount = new SpecialDiscount().WithDiscount(.07M).WithUPC(12345);
+			var specialDiscount = new SpecialUPCDiscount().WithDiscount(.07M).WithUPC(12345);
 
 			IPriceCalculation priceCalculation = new CalculationStrategy();
 			var priceModifiers = new PriceModifiersBuilder().WithTax(tax).WithDiscount(discount).WithDiscount(specialDiscount);

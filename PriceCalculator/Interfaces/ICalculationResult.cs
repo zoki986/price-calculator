@@ -1,11 +1,10 @@
 ﻿using PriceCalculator.Models;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 
 namespace PriceCalculator.Interfaces
 {
-	public interface IResult
+	public interface ICalculationResult
 	{
 		PriceCalculationResult WithTax(decimal tax);
 		PriceCalculationResult WithInitialPrice(decimal price);

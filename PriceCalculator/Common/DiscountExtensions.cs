@@ -8,35 +8,31 @@ namespace PriceCalculator.Common
 {
 	public static class DiscountExtensions
 	{
-		public static IProduct ApplyPrecedence(this IEnumerable<IDiscount> discounts, IProduct product, IPriceModifierBuilder priceModifiers)
+		public static decimal ApplyPrecedence(this IEnumerable<IPrecedenceDiscount> discounts, IProduct product, IPriceModifierBuilder priceModifiers)
 		{
-			var newPriceAmount = product
-								.Price
-								.Substract(
-									discounts.Where(discount => discount.HasPrecedence)
-									.SumDiscounts(product)
-									.WithDiscountCap(priceModifiers.DiscountCap, product)
-									);
+			var precedenceDiscountSum = discounts
+										.SumDiscounts(product)
+										.WithDiscountCap(priceModifiers.DiscountCap, product);
+			return product
+				   .Price
+				   .Substract(precedenceDiscountSum);
+		}
 
-			return (IProduct)Activator.CreateInstance(product.GetType(), product.Name, product.UPC, newPriceAmount);
-		}
-		public static decimal SumDiscounts(this IEnumerable<IDiscount> discounts, IProduct product)
-		{
-			return discounts.Cast<Discount>().Aggregate(0M, (prev, next) => prev + next.ApllyPriceModifier(product));
-		}
+		public static decimal ApplyPriceOperation(this IEnumerable<IProductTax> taxes, IProduct product)
+			=> taxes.Select(x => x.ApllyPriceOperation(product)).Sum();
+
+		public static decimal SumDiscounts(this IEnumerable<IDiscount> discounts, IProduct product) 
+			=> discounts.Cast<Discount>().Aggregate(0M, (prev, next) => prev + next.ApllyPriceOperation(product));
+
+		public static decimal SumDiscounts(this IEnumerable<IPrecedenceDiscount> discounts, IProduct product) 
+			=> discounts.Cast<Discount>().Aggregate(0M, (prev, next) => prev + next.ApllyPriceOperation(product));
 
 		public static decimal MultypliDiscounts(this IEnumerable<IDiscount> discounts, IProduct product)
-		{
-			return discounts.Aggregate(0M, (prev, next) => Calculate(prev, next, product.Price));
-		}
+			=> discounts.Aggregate(0M, (prev, next) => Calculate(prev, next, product.Price));
 		private static decimal Calculate(decimal prev, IDiscount next, decimal productPrice)
-		{
-			return (((productPrice - prev) * next.DiscountAmount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
-		}
+			=> (((productPrice - prev) * next.DiscountAmount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
 
 		public static decimal WithDiscountCalculationStrategy(this IEnumerable<IDiscount> discounts, Func<IEnumerable<IDiscount>, IProduct, decimal> strategy, IProduct product)
-		{
-			return strategy(discounts, product);
-		}
+			=> strategy(discounts, product);
 	}
 }

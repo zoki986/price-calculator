@@ -5,7 +5,7 @@ using System.Globalization;
 
 namespace PriceCalculator.Models
 {
-	public class PriceCalculationResult : IResult
+	public class PriceCalculationResult : ICalculationResult
 	{
 
 		public IProduct product;

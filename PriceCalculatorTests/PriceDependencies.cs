@@ -6,7 +6,7 @@ namespace Tests
 {
 	public static class PriceDependencies
 	{
-		public static ITax GetTaxWithAmount(decimal amount)
+		public static IProductTax GetTaxWithAmount(decimal amount)
 			=> new TaxPriceModifier(amount);
 
 		public static IProduct GetSimpleProduct()

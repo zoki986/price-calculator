@@ -1,6 +1,4 @@
-﻿using PriceCalculator.Interfaces;
-
-namespace PriceCalculator.Models
+﻿namespace PriceCalculator.Models
 {
 	public class ProductCosts
 	{
@@ -12,17 +10,43 @@ namespace PriceCalculator.Models
 			Total = total;
 		}
 
-		public ProductCosts(ProductCosts costs, decimal total)
+		public ProductCosts(ProductCosts costs)
 		{
 			Tax = costs.Tax;
 			Discounts = costs.Discounts;
 			Expenses = costs.Expenses;
-			Total = total;
+			Total = costs.Total;
+		}
+		public ProductCosts()
+		{
+		}
+		public ProductCosts WithTax(decimal tax)
+		{
+			Tax = tax;
+			return this;
 		}
 
-		public decimal Tax { get; }
-		public decimal Discounts { get; }
-		public decimal Expenses { get; }
-		public decimal Total { get; }
+		public ProductCosts WithExpenses(decimal expenses)
+		{
+			Expenses = expenses;
+			return this;
+		}
+
+		public ProductCosts WithDiscounts(decimal discounts)
+		{
+			Discounts = discounts;
+			return this;
+		}
+
+		public ProductCosts WithTotal(decimal total)
+		{
+			Total = total;
+			return this;
+		}
+
+		public decimal Tax { get; set; }
+		public decimal Discounts { get; set; }
+		public decimal Expenses { get; set; }
+		public decimal Total { get; set; }
 	}
 }

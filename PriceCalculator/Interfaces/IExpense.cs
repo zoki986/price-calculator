@@ -2,11 +2,10 @@
 
 namespace PriceCalculator.Interfaces
 {
-	public interface IExpense
+	public interface IExpense : IPriceModifier
 	{
 		string Name { get; }
 		decimal Cost { get; }
-		decimal ApllyPriceModifier(IProduct product);
 		string AsString(PriceCalculationResult res);
 	}
 }

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Builder\PriceModifierBuilderFromConfig.cs" />
     <Compile Include="Builder\PriceModifiersBuilder.cs" />
+    <Compile Include="Common\CalculationStrategyExtensions.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ExpensesExtensions.cs" />
     <Compile Include="Common\DecimalExtensions.cs" />
@@ -56,8 +57,9 @@
     <Compile Include="Interfaces\IExpense.cs" />
     <Compile Include="Interfaces\IPriceCalculation.cs" />
     <Compile Include="Interfaces\IPriceModifierBuilder.cs" />
-    <Compile Include="Interfaces\IResult.cs" />
-    <Compile Include="Interfaces\ITax.cs" />
+    <Compile Include="Interfaces\IPriceModifier.cs" />
+    <Compile Include="Interfaces\ICalculationResult.cs" />
+    <Compile Include="Interfaces\IProductTax.cs" />
     <Compile Include="Models\CostType.cs" />
     <Compile Include="Models\ProductCosts.cs" />
     <Compile Include="PriceCalculationStrategies\CalculationStrategy.cs" />
@@ -66,7 +68,8 @@
     <Compile Include="Models\PriceCalculationResult.cs" />
     <Compile Include="Models\PriceConfig.cs" />
     <Compile Include="PriceCalculationStrategies\PriceCalculationFunctions.cs" />
-    <Compile Include="PriceModifiers\SpecialDiscount.cs" />
+    <Compile Include="PriceModifiers\PrecedenceDiscount.cs" />
+    <Compile Include="PriceModifiers\SpecialUPCDiscount.cs" />
     <Compile Include="PriceModifiers\TaxPriceModifier.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
     <Compile Include="Interfaces\IProduct.cs" />

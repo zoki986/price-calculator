@@ -2,10 +2,9 @@
 
 namespace PriceCalculator.Interfaces
 {
-	public interface ITax
+	public interface IProductTax : IPriceModifier
 	{
 		decimal Cost { get; }
 		int Precision { get; }
-		decimal ApllyPriceModifier(IProduct product);
 	}
 }

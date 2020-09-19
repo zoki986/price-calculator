@@ -2,11 +2,9 @@
 
 namespace PriceCalculator.Interfaces
 {
-	public interface IDiscount
+	public interface IDiscount : IPriceModifier
 	{
 		decimal DiscountAmount { get;}
 		int Precision { get; }
-		bool HasPrecedence { get; }
-		decimal ApllyPriceModifier(IProduct product);
 	}
 }

@@ -36,7 +36,6 @@ namespace PriceCalculator.Builder
 			{
 				Console.WriteLine("Error reading from file");
 				Console.WriteLine(e.Message);
-				throw;
 			}
 
 			return modifiersBuilder;

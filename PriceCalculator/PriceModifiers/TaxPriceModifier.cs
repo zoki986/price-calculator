@@ -5,7 +5,7 @@ using System;
 
 namespace PriceCalculator.PriceModifiers
 {
-	public class TaxPriceModifier : ITax
+	public class TaxPriceModifier : IProductTax
 	{
 		public decimal Cost { get; set; }
 		public int Precision { get; set; }
@@ -16,7 +16,7 @@ namespace PriceCalculator.PriceModifiers
 			Precision = precision;
 		}
 
-		public decimal ApllyPriceModifier(IProduct product)
+		public decimal ApllyPriceOperation(IProduct product)
 		{
 			return (Cost* product.Price).WithPrecision(Precision);
 		}

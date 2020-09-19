@@ -9,9 +9,6 @@ namespace PriceCalculator.Models
 		public string Name { get; }
 		public int UPC { get; }
 		public decimal Price { get; set; }
-		public Book()
-		{
-		}
 
 		public Book(string name, int UPC, decimal price)
 		{

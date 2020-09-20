@@ -1,17 +1,18 @@
 ﻿using PriceCalculator.Interfaces;
+using PriceCalculator.Models;
 using PriceCalculator.PriceModifiers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using static PriceCalculator.PriceCalculationStrategies.PriceCalculationFunctions;
-using CostType = PriceCalculator.Models.CostType;
 
 namespace PriceCalculator.Builder
 {
 	public class PriceModifiersBuilder : IPriceModifierBuilder
 	{
-		public List<IPriceModifier> ProductOperations { get; set; } = new List<IPriceModifier>();
+		public List<IPriceModifier> ProductPriceModifiers { get; set; } = new List<IPriceModifier>();
 		public NumberFormatInfo CurrencyFormat { get; set; } = new NumberFormatInfo() { CurrencySymbol = "$" };
 		public Func<IEnumerable<IDiscount>, IProduct, decimal> DiscountCalculationMode { get; set; } = SumDiscounts;
 		public DiscountCap DiscountCap { get; set; }
@@ -37,19 +38,19 @@ namespace PriceCalculator.Builder
 
 		public PriceModifiersBuilder WithTax(IProductTax tax)
 		{
-			ProductOperations.Add(tax);
+			ProductPriceModifiers.Add(tax);
 			return this;
 		}
 
 		public PriceModifiersBuilder WithDiscount(params IPriceModifier[] discount)
 		{
-			ProductOperations.AddRange(discount);
+			ProductPriceModifiers.AddRange(discount);
 			return this;
 		}
 
 		public PriceModifiersBuilder WithExpense(params IExpense[] expense)
 		{
-			ProductOperations.AddRange(expense);
+			ProductPriceModifiers.AddRange(expense);
 			return this;
 		}
 
@@ -59,7 +60,7 @@ namespace PriceCalculator.Builder
 			return this;
 		}
 
-		public PriceModifiersBuilder WithCap(decimal cap, CostType type)
+		public PriceModifiersBuilder WithCap(decimal cap, ICostType type)
 		{
 			this.DiscountCap = new DiscountCap(cap, type);
 			return this;
@@ -68,6 +69,12 @@ namespace PriceCalculator.Builder
 		public PriceModifiersBuilder WithMultiplicativeCalculation()
 		{
 			DiscountCalculationMode = MultypliDiscounts;
+			return this;
+		}
+
+		public PriceModifiersBuilder WithPriceModifiers(IEnumerable<IPriceModifier> priceModifiers)
+		{
+			ProductPriceModifiers.AddRange(priceModifiers);
 			return this;
 		}
 

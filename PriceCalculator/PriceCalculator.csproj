@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,7 +60,9 @@
     <Compile Include="Interfaces\IPriceModifier.cs" />
     <Compile Include="Interfaces\ICalculationResult.cs" />
     <Compile Include="Interfaces\IProductTax.cs" />
-    <Compile Include="Models\CostType.cs" />
+    <Compile Include="Models\MonetaryCost.cs" />
+    <Compile Include="Models\ICostType.cs" />
+    <Compile Include="Models\PercentageCost.cs" />
     <Compile Include="Models\ProductCosts.cs" />
     <Compile Include="PriceCalculationStrategies\CalculationStrategy.cs" />
     <Compile Include="PriceModifiers\DiscountCap.cs" />

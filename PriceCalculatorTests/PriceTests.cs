@@ -20,8 +20,8 @@ namespace Tests
 		IDiscount nonSpecialDiscount = new SpecialUPCDiscount().WithDiscount(.07M).WithUPC(789);
 		IPriceModifier specialDiscountWithPrecedence = new PrecedenceDiscount().WithDiscount(.07M).WithUPC(12345);
 
-		IExpense transport = PriceDependencies.GetExpense("Transport", 2.2m, CostType.Monetary);
-		IExpense packaging = PriceDependencies.GetExpense("Packaging", .01M, CostType.Percentage);
+		IExpense transport = PriceDependencies.GetExpense("Transport", 2.2m, new MonetaryCost());
+		IExpense packaging = PriceDependencies.GetExpense("Packaging", .01M, new PercentageCost());
 
 		IPriceCalculation priceCalculator = new CalculationStrategy();
 		PriceModifiersBuilder priceModifiersBuilder = new PriceModifiersBuilder();
@@ -194,7 +194,7 @@ namespace Tests
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
-				.WithCap(.20M, CostType.Percentage)
+				.WithCap(.20M, new PercentageCost())
 				.WithAdditiveCalculation();
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
@@ -212,7 +212,7 @@ namespace Tests
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
-				.WithCap(4M, CostType.Monetary)
+				.WithCap(4M, new MonetaryCost())
 				.WithAdditiveCalculation();
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
@@ -230,7 +230,7 @@ namespace Tests
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
-				.WithCap(4M, CostType.Monetary)
+				.WithCap(4M, new MonetaryCost())
 				.WithAdditiveCalculation()
 				.WithCurrencyFormat("USD");
 
@@ -244,7 +244,7 @@ namespace Tests
 		[Fact]
 		public void Product_Price_With_Additional_Precision()
 		{
-			var transport = PriceDependencies.GetExpense("Transport", 0.03M, CostType.Percentage);
+			var transport = PriceDependencies.GetExpense("Transport", 0.03M, new PercentageCost());
 
 			priceModifiersBuilder = new PriceModifiersBuilder()
 			   .WithDiscount(universalDiscount)

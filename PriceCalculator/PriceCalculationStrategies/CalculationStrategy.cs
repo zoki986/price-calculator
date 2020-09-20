@@ -19,42 +19,19 @@ namespace PriceCalculator.PriceCalculationStrategies
 
 		private ProductCosts CalculateProductCosts(IProduct product, PriceModifiersBuilder priceModifiers)
 		{
-			product.Price = priceModifiers
-				.ProductOperations
-				.OfType<IPrecedenceDiscount>()
-				.ApplyPrecedence(product, priceModifiers);
-
-			decimal taxAmount = priceModifiers.ProductOperations.OfType<IProductTax>().ApplyPriceOperation(product);
-
-			decimal regularDiscountSum =
-					priceModifiers
-					.ProductOperations
-					.OfType<IDiscount>()
-					.Where(po => po.GetType().GetInterface(nameof(IPrecedenceDiscount)) == null)
-					.WithDiscountCalculationStrategy(priceModifiers.DiscountCalculationMode, product)
-					.WithDiscountCap(priceModifiers.DiscountCap, product);
-
-			decimal aditionalExpenses =
-				priceModifiers
-				.ProductOperations
-				.OfType<IExpense>()
-				.SumExpenses(product);
-
-			decimal finalPrice = product
-					   .Price
-					   .Add(taxAmount)
-					   .Add(aditionalExpenses)
-					   .Substract(regularDiscountSum)
-					   .WithPrecision(Constants.DefaultPrecision);
-
-			return new ProductCosts(taxAmount, regularDiscountSum, aditionalExpenses, finalPrice);
+			return product
+				.ApplyPrecedenceDiscount(priceModifiers)
+				.ApplyTax(priceModifiers)
+				.ApplyDiscounts(product, priceModifiers)
+				.ApplyExpenses(product, priceModifiers)
+				.CalculateTotal(product, priceModifiers);
 		}
 
 		PriceCalculationResult BuildPriceCalculationResult(IProduct product, IPriceModifierBuilder priceModifiers, ProductCosts costs)
 			=> new PriceCalculationResult()
 			   .ForProduct(product)
 			   .WithInitialPrice(product.Price)
-			   .WithExpenses(priceModifiers.ProductOperations.OfType<IExpense>())
+			   .WithExpenses(priceModifiers.ProductPriceModifiers.OfType<IExpense>())
 			   .WithTax(costs.Tax)
 			   .WithDiscounts(costs.Discounts)
 			   .WithTotal(costs.Total)

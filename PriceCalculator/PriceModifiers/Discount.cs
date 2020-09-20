@@ -7,7 +7,6 @@ namespace PriceCalculator.PriceModifiers
 	{
 		public decimal DiscountAmount { get; set; }
 		public int Precision { get;  set; } = 2;
-		public int UPC { get; set; }
 
 		public Discount WithDiscount(decimal discount)
 		{

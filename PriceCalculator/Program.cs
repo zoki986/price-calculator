@@ -14,16 +14,21 @@ namespace PriceCalculator
 		{
 			IProduct product = new Book("The Little Prince", 12345, 20.25M);
 
-			var tax = new TaxPriceModifier(.20M);
-			var discount = new Discount().WithDiscount(.15M);
-			var specialDiscount = new SpecialUPCDiscount().WithDiscount(.07M).WithUPC(12345);
+			//var tax = new TaxPriceModifier(.20M);
+			//var discount = new Discount().WithDiscount(.15M);
+			///var specialDiscount = new SpecialUPCDiscount().WithDiscount(.07M).WithUPC(12345);
 
 			IPriceCalculation priceCalculation = new CalculationStrategy();
-			var priceModifiers = new PriceModifiersBuilder().WithTax(tax).WithDiscount(discount).WithDiscount(specialDiscount);
+			//var priceModifiers = new PriceModifiersBuilder().WithTax(tax).WithDiscount(discount).WithDiscount(specialDiscount);
 
-			var result = priceCalculation.GetPriceResultForProduct(product, priceModifiers);
+			// result = priceCalculation.GetPriceResultForProduct(product, priceModifiers);
 
-			ConsoleReporter.PrintResult(result);
+			var priceModifiersBuilder = new PriceModifiersBuilder()
+			.WithConfigurationFile(@"Config/config.txt");
+
+			var priceResult = priceCalculation.GetPriceResultForProduct(product, priceModifiersBuilder);
+
+			ConsoleReporter.PrintResult(priceResult);
 
 			Console.ReadLine();
 		}

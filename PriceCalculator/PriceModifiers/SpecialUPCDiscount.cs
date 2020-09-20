@@ -5,6 +5,8 @@ namespace PriceCalculator.PriceModifiers
 {
 	public class SpecialUPCDiscount : Discount
 	{
+		public int UPC { get; set; }
+
 		new public SpecialUPCDiscount WithDiscount(decimal discount)
 		{
 			this.DiscountAmount = discount;

@@ -1,17 +1,32 @@
 {
-	"Tax" : {
-	   "Cost": 0.21,
-	   "Precision" : 2
-	},
-	"Discounts": [
-		{"DiscountAmount" : 0.15 , "HasPrecedence": false},
-		{"DiscountAmount" : 0.07, "UPC" : 12345, "HasPrecedence" : false}
-	],
-	"AdditionalExpenses":[
-		{"Name": "Transport",   "Cost": 0.03, "ExpenseType": "Percentage"}
+	"PriceModifiers": [
+		{
+			"$type": "PriceCalculator.PriceModifiers.TaxPriceModifier, PriceCalculator",
+			"Cost" : 0.21,
+			"Precision" : 2
+		},
+		{
+			"$type": "PriceCalculator.PriceModifiers.Discount, PriceCalculator",
+			"DiscountAmount" : 0.15 
+		},
+		{
+			"$type": "PriceCalculator.PriceModifiers.SpecialUPCDiscount, PriceCalculator",
+			"DiscountAmount" : 0.07, 
+			"UPC" : 12345 
+		},
+		{
+			"$type": "PriceCalculator.PriceModifiers.Expense, PriceCalculator",
+			"Name": "Transport", 
+			"Cost": 0.03, 
+			"ExpenseType": {
+					"$type": "PriceCalculator.Models.PercentageCost, PriceCalculator",
+			} 
+		}
 	],
 	"CurrencyFormat": "USD",
 	"DiscountCalculationMode": "multiplicative",
-	"Cap": 1,
-	"CapType": "Percentage"
+	"Cap": 50,
+	"CapType": {
+		"$type": "PriceCalculator.Models.PercentageCost, PriceCalculator",
+	}
 }

@@ -7,9 +7,9 @@ namespace PriceCalculator.Interfaces
 {
 	public interface IPriceModifierBuilder
 	{
-		List<IPriceModifier> ProductOperations { get; set; }
+		List<IPriceModifier> ProductPriceModifiers { get; }
 		NumberFormatInfo CurrencyFormat { get; }
-		Func<IEnumerable<IDiscount>, IProduct, decimal> DiscountCalculationMode { get; }
-		DiscountCap DiscountCap { get; set; }
+		Func<IEnumerable<IDiscount>, IProduct, decimal> DiscountCalculationMode{ get; }
+		DiscountCap DiscountCap { get; }
 	}
 }

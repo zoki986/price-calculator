@@ -12,7 +12,7 @@ namespace PriceCalculator.Common
 		{
 			product.Price =
 				 priceModifiers
-				.ProductOperations
+				.ProductPriceModifiers
 				.OfType<IPrecedenceDiscount>()
 				.ApplyPrecedence(product, priceModifiers);
 
@@ -21,14 +21,14 @@ namespace PriceCalculator.Common
 
 		public static ProductCosts ApplyTax(this IProduct product, PriceModifiersBuilder priceModifiers)
 		{
-			decimal taxAmount = priceModifiers.ProductOperations.OfType<IProductTax>().ApplyPriceOperation(product);
+			decimal taxAmount = priceModifiers.ProductPriceModifiers.OfType<IProductTax>().ApplyPriceOperation(product);
 			return new ProductCosts().WithTax(taxAmount);
 		}
 		public static ProductCosts ApplyDiscounts(this ProductCosts costs, IProduct product, PriceModifiersBuilder priceModifiers)
 		{
 			decimal discountsSum =
 					priceModifiers
-					.ProductOperations
+					.ProductPriceModifiers
 					.OfType<IDiscount>()
 					.Where(po => po.GetType().GetInterface(nameof(IPrecedenceDiscount)) == null)
 					.WithDiscountCalculationStrategy(priceModifiers.DiscountCalculationMode, product)
@@ -41,7 +41,7 @@ namespace PriceCalculator.Common
 		{
 			decimal aditionalExpenses =
 					priceModifiers
-					.ProductOperations
+					.ProductPriceModifiers
 					.OfType<IExpense>()
 					.SumExpenses(product);
 

@@ -7,9 +7,9 @@ namespace PriceCalculator.PriceModifiers
 	public class Expense : IExpense
 	{
 		public string Name { get; set; }
-		public CostType ExpenseType { get; }
+		public ICostType ExpenseType { get; set; }
 		public decimal Cost { get; set; }
-		public Expense(string name, decimal amount, CostType costType)
+		public Expense(string name, decimal amount, ICostType costType)
 		{
 			Name = name;
 			ExpenseType = costType;
@@ -17,12 +17,7 @@ namespace PriceCalculator.PriceModifiers
 		}
 
 		public decimal ApllyPriceOperation(IProduct product)
-		{
-			if (ExpenseType == CostType.Monetary)
-				return Cost;
-
-			return (Cost * product.Price);
-		}
+		  => ExpenseType.GetCostAmount(Cost, product.Price);
 
 		public string AsString(PriceCalculationResult res) 
 			=> $"{res.GetExpenseAmountFormated(this)}";

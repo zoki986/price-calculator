@@ -1,15 +1,14 @@
 ﻿using PriceCalculator.Interfaces;
-using System;
-using CostType = PriceCalculator.Models.CostType;
+using PriceCalculator.Models;
 
 namespace PriceCalculator.PriceModifiers
 {
 	public class DiscountCap
 	{
 		public decimal Cap { get; }
-		public CostType CapType { get; }
+		public ICostType CapType { get; }
 
-		public DiscountCap(decimal cap, CostType type)
+		public DiscountCap(decimal cap, ICostType type)
 		{
 			CapType = type;
 			Cap = cap;
@@ -20,11 +19,6 @@ namespace PriceCalculator.PriceModifiers
 			return discount >= discountCap ? discountCap : discount;
 		}
 		private decimal GetDiscountCap(IProduct product)
-		{
-			if (CapType == CostType.Monetary)
-				return Cap;
-
-			return product.Price * Cap;
-		}
+			=> CapType.GetCostAmount(Cap, product.Price);
 	}
 }

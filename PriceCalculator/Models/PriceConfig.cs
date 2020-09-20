@@ -1,15 +1,15 @@
-﻿using PriceCalculator.PriceModifiers;
+﻿using PriceCalculator.Interfaces;
+using PriceCalculator.PriceModifiers;
+using System.Collections.Generic;
 
 namespace PriceCalculator.Models
 {
 	public class PriceConfig
 	{
-		public TaxPriceModifier Tax { get; set; }
-		public Discount[] Discounts { get; set; }
-		public Expense[] AdditionalExpenses { get; set; }
+		public List<IPriceModifier> PriceModifiers { get; set; } = new List<IPriceModifier>();
 		public string CurrencyFormat { get; set; }
 		public string DiscountCalculationMode { get; set; }
 		public decimal Cap { get; set; }
-		public CostType CapType { get; set; }
+		public ICostType CapType { get; set; }
 	}
 }

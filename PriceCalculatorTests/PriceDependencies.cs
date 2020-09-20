@@ -12,7 +12,7 @@ namespace Tests
 		public static IProduct GetSimpleProduct()
 			=> new Book("The Little Prince", 12345, 20.25M);
 
-		public static IExpense GetExpense(string name, decimal value, CostType type)
+		public static IExpense GetExpense(string name, decimal value, ICostType type)
 			=> new Expense(name, value, type);
 	}
 }

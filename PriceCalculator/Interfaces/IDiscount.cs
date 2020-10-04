@@ -4,7 +4,7 @@ namespace PriceCalculator.Interfaces
 {
 	public interface IDiscount : IPriceModifier
 	{
-		decimal DiscountAmount { get;}
+		decimal Amount { get;}
 		int Precision { get; }
 	}
 }

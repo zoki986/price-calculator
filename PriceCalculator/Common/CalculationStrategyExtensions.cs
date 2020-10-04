@@ -30,7 +30,7 @@ namespace PriceCalculator.Common
 					priceModifiers
 					.ProductPriceModifiers
 					.OfType<IDiscount>()
-					.Where(po => po.GetType().GetInterface(nameof(IPrecedenceDiscount)) == null)
+					.Where(discount => !(discount is IPrecedenceDiscount))
 					.WithDiscountCalculationStrategy(priceModifiers.DiscountCalculationMode, product)
 					.WithDiscountCap(priceModifiers.DiscountCap, product);
 

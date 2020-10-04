@@ -4,7 +4,7 @@ namespace PriceCalculator.Interfaces
 {
 	public interface IProductTax : IPriceModifier
 	{
-		decimal Cost { get; }
+		decimal Amount { get; }
 		int Precision { get; }
 	}
 }

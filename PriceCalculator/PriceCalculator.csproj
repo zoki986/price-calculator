@@ -61,7 +61,8 @@
     <Compile Include="Interfaces\ICalculationResult.cs" />
     <Compile Include="Interfaces\IProductTax.cs" />
     <Compile Include="Models\MonetaryCost.cs" />
-    <Compile Include="Models\ICostType.cs" />
+    <Compile Include="Interfaces\IExpenseType.cs" />
+    <Compile Include="Models\Money.cs" />
     <Compile Include="Models\PercentageCost.cs" />
     <Compile Include="Models\ProductCosts.cs" />
     <Compile Include="PriceCalculationStrategies\CalculationStrategy.cs" />

@@ -5,24 +5,18 @@ namespace PriceCalculator.PriceModifiers
 {
 	public class Discount : IDiscount
 	{
-		public decimal DiscountAmount { get; set; }
+		public decimal Amount { get; set; }
 		public int Precision { get;  set; } = 2;
 
 		public Discount WithDiscount(decimal discount)
 		{
-			this.DiscountAmount = discount;
-			return this;
-		}
-
-		public Discount WithPrecision(int precision)
-		{
-			this.Precision = precision;
+			this.Amount = discount;
 			return this;
 		}
 
 		public virtual decimal ApllyPriceOperation(IProduct product) 
-			=> (product.Price * DiscountAmount).WithPrecision(Precision);
+			=> (product.Price * Amount).WithPrecision(Precision);
 		public override string ToString() 
-			=> $"Discount = {DiscountAmount}";
+			=> $"Discount = {Amount}";
 	}
 }

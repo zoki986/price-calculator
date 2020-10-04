@@ -12,6 +12,6 @@ namespace PriceCalculator.PriceCalculationStrategies
 		public static decimal MultypliDiscounts(IEnumerable<IDiscount> discounts, IProduct product) 
 			=> discounts.Aggregate(0M, (prev, next) => CalculateDiscount(prev, next, product.Price));
 		private static decimal CalculateDiscount(decimal prev, IDiscount next, decimal productPrice) 
-			=> (((productPrice - prev) * next.DiscountAmount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
+			=> (((productPrice - prev) * next.Amount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
 	}
 }

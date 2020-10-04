@@ -6,18 +6,16 @@ namespace PriceCalculator.PriceModifiers
 {
 	public class Expense : IExpense
 	{
-		public string Name { get; set; }
-		public ICostType ExpenseType { get; set; }
-		public decimal Cost { get; set; }
-		public Expense(string name, decimal amount, ICostType costType)
+		public string Name { get;}
+		public IExpenseType ExpenseType { get; set; }
+		public Expense(string name, IExpenseType costType)
 		{
 			Name = name;
 			ExpenseType = costType;
-			Cost = amount;
 		}
 
 		public decimal ApllyPriceOperation(IProduct product)
-		  => ExpenseType.GetCostAmount(Cost, product.Price);
+		  => ExpenseType.GetCostAmount(product.Price);
 
 		public string AsString(PriceCalculationResult res) 
 			=> $"{res.GetExpenseAmountFormated(this)}";

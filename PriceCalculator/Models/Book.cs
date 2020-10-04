@@ -17,6 +17,13 @@ namespace PriceCalculator.Models
 			Price = price;
 		}
 
+		public Book(decimal amount, Book book)
+		{
+			Price = amount;
+			Name = book.Name;
+			UPC = book.UPC;
+		}
+
 		public override string ToString()
 		{
 			return $"{Name}, UPC - {UPC} and Price - {Price}";

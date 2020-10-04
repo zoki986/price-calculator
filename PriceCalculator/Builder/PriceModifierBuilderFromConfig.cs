@@ -3,11 +3,9 @@ using Newtonsoft.Json.Linq;
 using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
 using PriceCalculator.PriceCalculationStrategies;
-using PriceCalculator.PriceModifiers;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -28,7 +26,7 @@ namespace PriceCalculator.Builder
 				modifiersBuilder
 					.WithPriceModifiers(priceConfig.PriceModifiers)
 					.WithCurrencyFormat(priceConfig.CurrencyFormat)
-					.WithCap(priceConfig.Cap, priceConfig.CapType);
+					.WithCap(priceConfig.CapType);
 
 				modifiersBuilder.DiscountCalculationMode = GetDiscountCalculationMethod(priceConfig);
 

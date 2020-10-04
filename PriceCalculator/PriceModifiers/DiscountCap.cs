@@ -5,13 +5,11 @@ namespace PriceCalculator.PriceModifiers
 {
 	public class DiscountCap
 	{
-		public decimal Cap { get; }
-		public ICostType CapType { get; }
+		public IExpenseType CapType { get; }
 
-		public DiscountCap(decimal cap, ICostType type)
+		public DiscountCap(IExpenseType type)
 		{
 			CapType = type;
-			Cap = cap;
 		}
 		public decimal GetMaxDiscount(decimal discount, IProduct product)
 		{
@@ -19,6 +17,6 @@ namespace PriceCalculator.PriceModifiers
 			return discount >= discountCap ? discountCap : discount;
 		}
 		private decimal GetDiscountCap(IProduct product)
-			=> CapType.GetCostAmount(Cap, product.Price);
+			=> CapType.GetCostAmount(product.Price);
 	}
 }

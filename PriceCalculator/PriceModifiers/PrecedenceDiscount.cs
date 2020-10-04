@@ -7,19 +7,13 @@ namespace PriceCalculator.PriceModifiers
 	{
 		new public PrecedenceDiscount WithDiscount(decimal discount)
 		{
-			this.DiscountAmount = discount;
+			this.Amount = discount;
 			return this;
 		}
 
 		new public PrecedenceDiscount WithUPC(int upc)
 		{
 			UPC = upc;
-			return this;
-		}
-
-		new public PrecedenceDiscount WithPrecision(int precision)
-		{
-			Precision = precision;
 			return this;
 		}
 	}

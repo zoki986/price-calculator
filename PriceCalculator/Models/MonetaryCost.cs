@@ -3,17 +3,20 @@ using PriceCalculator.Interfaces;
 
 namespace PriceCalculator.Models
 {
-	public class MonetaryCost : ICostType
+	public class MonetaryCost : IExpenseType
 	{
-		public MonetaryCost()
+		private readonly decimal amount;
+
+		public MonetaryCost(decimal amount)
 		{
+			this.amount = amount;
 		}
 
-		public decimal GetCostAmount(decimal cost, decimal price)
-			=> cost;
+		public decimal GetCostAmount(decimal price)
+			=> amount;
 
 		public string GetCostFormated(PriceCalculationResult result, IExpense expense)
-			=> $"{expense} = {expense.Cost.FormatDecimal(result.currencyFormat)}";
+			=> $"{expense} = {amount.FormatDecimal(result.currencyFormat)}";
 
 		public override string ToString() => "Monetary";
 	}

@@ -17,6 +17,9 @@ namespace PriceCalculator.Builder
 		public Func<IEnumerable<IDiscount>, IProduct, decimal> DiscountCalculationMode { get; set; } = SumDiscounts;
 		public DiscountCap DiscountCap { get; set; }
 
+		public int CalculationPrecision { get; set; } = 2;
+		public int ReportPrecision { get; set; } = 2;
+
 		public PriceModifiersBuilder()
 		{
 		}
@@ -60,9 +63,9 @@ namespace PriceCalculator.Builder
 			return this;
 		}
 
-		public PriceModifiersBuilder WithCap(decimal cap, ICostType type)
+		public PriceModifiersBuilder WithCap(IExpenseType type)
 		{
-			this.DiscountCap = new DiscountCap(cap, type);
+			this.DiscountCap = new DiscountCap(type);
 			return this;
 		}
 

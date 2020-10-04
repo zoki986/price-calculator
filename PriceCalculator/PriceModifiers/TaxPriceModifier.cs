@@ -7,29 +7,23 @@ namespace PriceCalculator.PriceModifiers
 {
 	public class TaxPriceModifier : IProductTax
 	{
-		public decimal Cost { get; set; }
+		public decimal Amount { get; set; }
 		public int Precision { get; set; }
 
 		public TaxPriceModifier(decimal amount, int precision = 2)
 		{
-			Cost = amount;
+			Amount = amount;
 			Precision = precision;
 		}
 
 		public decimal ApllyPriceOperation(IProduct product)
 		{
-			return (Cost* product.Price).WithPrecision(Precision);
-		}
-
-		public TaxPriceModifier WithPrecision(int precision)
-		{
-			Precision = precision;
-			return this;
+			return (Amount* product.Price).WithPrecision(Precision);
 		}
 
 		public override string ToString()
 		{
-			return $"Tax = {Cost.ToString()}";
+			return $"Tax = {Amount}";
 		}
 	}
 }

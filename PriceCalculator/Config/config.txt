@@ -17,9 +17,9 @@
 		{
 			"$type": "PriceCalculator.PriceModifiers.Expense, PriceCalculator",
 			"Name": "Transport", 
-			"Cost": 0.03, 
 			"ExpenseType": {
 					"$type": "PriceCalculator.Models.PercentageCost, PriceCalculator",
+					"Amount": 0.03, 
 			} 
 		}
 	],
@@ -28,5 +28,6 @@
 	"Cap": 50,
 	"CapType": {
 		"$type": "PriceCalculator.Models.PercentageCost, PriceCalculator",
+		"amount": 50
 	}
 }

@@ -30,7 +30,7 @@ namespace PriceCalculator.Common
 		public static decimal MultypliDiscounts(this IEnumerable<IDiscount> discounts, IProduct product)
 			=> discounts.Aggregate(0M, (prev, next) => Calculate(prev, next, product.Price));
 		private static decimal Calculate(decimal prev, IDiscount next, decimal productPrice)
-			=> (((productPrice - prev) * next.DiscountAmount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
+			=> (((productPrice - prev) * next.Amount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
 
 		public static decimal WithDiscountCalculationStrategy(this IEnumerable<IDiscount> discounts, Func<IEnumerable<IDiscount>, IProduct, decimal> strategy, IProduct product)
 			=> strategy(discounts, product);

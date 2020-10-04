@@ -10,6 +10,6 @@ namespace PriceCalculator.Models
 		public string CurrencyFormat { get; set; }
 		public string DiscountCalculationMode { get; set; }
 		public decimal Cap { get; set; }
-		public ICostType CapType { get; set; }
+		public IExpenseType CapType { get; set; }
 	}
 }

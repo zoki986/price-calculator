@@ -2,22 +2,20 @@
 using PriceCalculator.Common;
 using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
-using PriceCalculator.PriceModifiers;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PriceCalculator.PriceCalculationStrategies
 {
 	public class CalculationStrategy : IPriceCalculation
 	{
-		public PriceCalculationResult GetPriceResultForProduct(IProduct product, PriceModifiersBuilder priceModifiers)
+		public PriceCalculationResult GetPriceResultForProduct(IProduct product, ModifiersBuilder priceModifiers)
 		{
 			ProductCosts costs = CalculateProductCosts(product, priceModifiers);
 
 			return BuildPriceCalculationResult(product, priceModifiers, costs);
 		}
 
-		private ProductCosts CalculateProductCosts(IProduct product, PriceModifiersBuilder priceModifiers)
+		private ProductCosts CalculateProductCosts(IProduct product, ModifiersBuilder priceModifiers)
 		{
 			return product
 				.ApplyPrecedenceDiscount(priceModifiers)

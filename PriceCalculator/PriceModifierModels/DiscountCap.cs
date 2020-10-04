@@ -1,7 +1,7 @@
 ﻿using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
 
-namespace PriceCalculator.PriceModifiers
+namespace PriceCalculator.PriceModifiersModels
 {
 	public class DiscountCap
 	{

@@ -46,14 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builder\PriceModifierBuilderFromConfig.cs" />
-    <Compile Include="Builder\PriceModifiersBuilder.cs" />
+    <Compile Include="Builder\ModifierBuilderFromConfig.cs" />
+    <Compile Include="Builder\ModifiersBuilder.cs" />
     <Compile Include="Common\CalculationStrategyExtensions.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ExpensesExtensions.cs" />
     <Compile Include="Common\DecimalExtensions.cs" />
     <Compile Include="Common\DiscountExtensions.cs" />
     <Compile Include="Common\PropertyInfoExtensions.cs" />
+    <Compile Include="Interfaces\IDiscountCalculationMode.cs" />
     <Compile Include="Interfaces\IExpense.cs" />
     <Compile Include="Interfaces\IPriceCalculation.cs" />
     <Compile Include="Interfaces\IPriceModifierBuilder.cs" />
@@ -66,21 +67,22 @@
     <Compile Include="Models\PercentageCost.cs" />
     <Compile Include="Models\ProductCosts.cs" />
     <Compile Include="PriceCalculationStrategies\CalculationStrategy.cs" />
-    <Compile Include="PriceModifiers\DiscountCap.cs" />
-    <Compile Include="PriceModifiers\Expense.cs" />
+    <Compile Include="PriceCalculationStrategies\MultiplicativeDiscountCalculation.cs" />
+    <Compile Include="PriceCalculationStrategies\SumingDiscountCalculation.cs" />
+    <Compile Include="PriceModifierModels\DiscountCap.cs" />
+    <Compile Include="PriceModifierModels\Expense.cs" />
     <Compile Include="Models\PriceCalculationResult.cs" />
     <Compile Include="Models\PriceConfig.cs" />
-    <Compile Include="PriceCalculationStrategies\PriceCalculationFunctions.cs" />
-    <Compile Include="PriceModifiers\PrecedenceDiscount.cs" />
-    <Compile Include="PriceModifiers\SpecialUPCDiscount.cs" />
-    <Compile Include="PriceModifiers\TaxPriceModifier.cs" />
+    <Compile Include="PriceModifierModels\PrecedenceDiscount.cs" />
+    <Compile Include="PriceModifierModels\SpecialUPCDiscount.cs" />
+    <Compile Include="PriceModifierModels\TaxPriceModifier.cs" />
     <Compile Include="Reporters\ConsoleReporter.cs" />
     <Compile Include="Interfaces\IProduct.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IDiscount.cs" />
-    <Compile Include="PriceModifiers\Discount.cs" />
+    <Compile Include="PriceModifierModels\Discount.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

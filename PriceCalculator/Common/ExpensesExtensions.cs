@@ -1,6 +1,6 @@
 ﻿using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
-using PriceCalculator.PriceModifiers;
+using PriceCalculator.PriceModifiersModels;
 using System.Collections.Generic;
 using System.Linq;
 

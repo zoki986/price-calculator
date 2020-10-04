@@ -1,30 +1,27 @@
 ﻿using PriceCalculator.Interfaces;
-using PriceCalculator.Models;
-using PriceCalculator.PriceModifiers;
-using System;
+using PriceCalculator.PriceCalculationStrategies;
+using PriceCalculator.PriceModifiersModels;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text.RegularExpressions;
-using static PriceCalculator.PriceCalculationStrategies.PriceCalculationFunctions;
 
 namespace PriceCalculator.Builder
 {
-	public class PriceModifiersBuilder : IPriceModifierBuilder
+	public class ModifiersBuilder : IPriceModifierBuilder
 	{
 		public List<IPriceModifier> ProductPriceModifiers { get; set; } = new List<IPriceModifier>();
 		public NumberFormatInfo CurrencyFormat { get; set; } = new NumberFormatInfo() { CurrencySymbol = "$" };
-		public Func<IEnumerable<IDiscount>, IProduct, decimal> DiscountCalculationMode { get; set; } = SumDiscounts;
+		public IDiscountCalculationMode DiscountCalculationMode { get; set; } = new SumingDiscountCalculation();
 		public DiscountCap DiscountCap { get; set; }
 
 		public int CalculationPrecision { get; set; } = 2;
 		public int ReportPrecision { get; set; } = 2;
 
-		public PriceModifiersBuilder()
+		public ModifiersBuilder()
 		{
 		}
 
-		public PriceModifiersBuilder WithCurrencyFormat(string simbol, bool suffix = true)
+		public ModifiersBuilder WithCurrencyFormat(string simbol, bool suffix = true)
 		{
 			CurrencyFormat = new NumberFormatInfo();
 			if (string.IsNullOrWhiteSpace(simbol) && !Regex.IsMatch(simbol, "[A-Z]{3}"))
@@ -39,51 +36,51 @@ namespace PriceCalculator.Builder
 			return this;
 		}
 
-		public PriceModifiersBuilder WithTax(IProductTax tax)
+		public ModifiersBuilder WithTax(IProductTax tax)
 		{
 			ProductPriceModifiers.Add(tax);
 			return this;
 		}
 
-		public PriceModifiersBuilder WithDiscount(params IPriceModifier[] discount)
+		public ModifiersBuilder WithDiscount(params IPriceModifier[] discount)
 		{
 			ProductPriceModifiers.AddRange(discount);
 			return this;
 		}
 
-		public PriceModifiersBuilder WithExpense(params IExpense[] expense)
+		public ModifiersBuilder WithExpense(params IExpense[] expense)
 		{
 			ProductPriceModifiers.AddRange(expense);
 			return this;
 		}
 
-		public PriceModifiersBuilder WithAdditiveCalculation()
+		public ModifiersBuilder WithAdditiveCalculation()
 		{
-			this.DiscountCalculationMode = SumDiscounts;
+			this.DiscountCalculationMode = new SumingDiscountCalculation();
 			return this;
 		}
 
-		public PriceModifiersBuilder WithCap(IExpenseType type)
+		public ModifiersBuilder WithCap(IExpenseType type)
 		{
 			this.DiscountCap = new DiscountCap(type);
 			return this;
 		}
 
-		public PriceModifiersBuilder WithMultiplicativeCalculation()
+		public ModifiersBuilder WithMultiplicativeCalculation()
 		{
-			DiscountCalculationMode = MultypliDiscounts;
+			DiscountCalculationMode = new MultiplicativeDiscountCalculation();
 			return this;
 		}
 
-		public PriceModifiersBuilder WithPriceModifiers(IEnumerable<IPriceModifier> priceModifiers)
+		public ModifiersBuilder WithPriceModifiers(IEnumerable<IPriceModifier> priceModifiers)
 		{
 			ProductPriceModifiers.AddRange(priceModifiers);
 			return this;
 		}
 
-		public PriceModifiersBuilder WithConfigurationFile(string filePath)
+		public ModifiersBuilder WithConfigurationFile(string filePath)
 		{
-			return PriceModifierBuilderFromConfig.GetPriceModifierBuilder(filePath);
+			return ModifierBuilderFromConfig.GetPriceModifierBuilder(filePath);
 		}
 	}
 

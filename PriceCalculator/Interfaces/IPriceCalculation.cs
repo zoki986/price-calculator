@@ -5,6 +5,6 @@ namespace PriceCalculator.Interfaces
 {
 	public interface IPriceCalculation
 	{
-		PriceCalculationResult GetPriceResultForProduct(IProduct product, PriceModifiersBuilder priceModifiers);
+		PriceCalculationResult GetPriceResultForProduct(IProduct product, ModifiersBuilder priceModifiers);
 	}
 }

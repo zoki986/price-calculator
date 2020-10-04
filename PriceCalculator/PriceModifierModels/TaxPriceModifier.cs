@@ -1,9 +1,7 @@
 ﻿using PriceCalculator.Common;
 using PriceCalculator.Interfaces;
-using PriceCalculator.Models;
-using System;
 
-namespace PriceCalculator.PriceModifiers
+namespace PriceCalculator.PriceModifiersModels
 {
 	public class TaxPriceModifier : IProductTax
 	{

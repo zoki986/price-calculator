@@ -1,7 +1,7 @@
 ﻿using PriceCalculator.Common;
 using PriceCalculator.Interfaces;
 
-namespace PriceCalculator.PriceModifiers
+namespace PriceCalculator.PriceModifiersModels
 {
 	public class SpecialUPCDiscount : Discount
 	{

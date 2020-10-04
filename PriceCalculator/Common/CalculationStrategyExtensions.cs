@@ -1,14 +1,14 @@
 ﻿using PriceCalculator.Builder;
 using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
-using PriceCalculator.PriceModifiers;
+using PriceCalculator.PriceModifiersModels;
 using System.Linq;
 
 namespace PriceCalculator.Common
 {
 	public static class CalculationStrategyExtensions
 	{
-		public static IProduct ApplyPrecedenceDiscount(this IProduct product, PriceModifiersBuilder priceModifiers)
+		public static IProduct ApplyPrecedenceDiscount(this IProduct product, ModifiersBuilder priceModifiers)
 		{
 			product.Price =
 				 priceModifiers
@@ -19,12 +19,12 @@ namespace PriceCalculator.Common
 			return product;
 		}
 
-		public static ProductCosts ApplyTax(this IProduct product, PriceModifiersBuilder priceModifiers)
+		public static ProductCosts ApplyTax(this IProduct product, ModifiersBuilder priceModifiers)
 		{
 			decimal taxAmount = priceModifiers.ProductPriceModifiers.OfType<IProductTax>().ApplyPriceOperation(product);
 			return new ProductCosts().WithTax(taxAmount);
 		}
-		public static ProductCosts ApplyDiscounts(this ProductCosts costs, IProduct product, PriceModifiersBuilder priceModifiers)
+		public static ProductCosts ApplyDiscounts(this ProductCosts costs, IProduct product, ModifiersBuilder priceModifiers)
 		{
 			decimal discountsSum =
 					priceModifiers
@@ -37,7 +37,7 @@ namespace PriceCalculator.Common
 			return new ProductCosts(costs).WithDiscounts(discountsSum);
 		}
 
-		public static ProductCosts ApplyExpenses(this ProductCosts costs, IProduct product, PriceModifiersBuilder priceModifiers)
+		public static ProductCosts ApplyExpenses(this ProductCosts costs, IProduct product, ModifiersBuilder priceModifiers)
 		{
 			decimal aditionalExpenses =
 					priceModifiers
@@ -48,14 +48,14 @@ namespace PriceCalculator.Common
 			return new ProductCosts(costs).WithExpenses(aditionalExpenses);
 		}
 
-		public static ProductCosts CalculateTotal(this ProductCosts costs, IProduct product, PriceModifiersBuilder priceModifiers)
+		public static ProductCosts CalculateTotal(this ProductCosts costs, IProduct product, ModifiersBuilder priceModifiers)
 		{
 			decimal finalPrice = product
 					   .Price
 					   .Add(costs.Tax)
 					   .Add(costs.Expenses)
 					   .Substract(costs.Discounts)
-					   .WithPrecision(Constants.DefaultPrecision);
+					   .WithPrecision(priceModifiers.CalculationPrecision);
 
 			return new ProductCosts(costs).WithTotal(finalPrice);
 		}

@@ -1,6 +1,5 @@
 ﻿using PriceCalculator.Interfaces;
-using PriceCalculator.PriceModifiers;
-using System;
+using PriceCalculator.PriceModifiersModels;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,7 +31,7 @@ namespace PriceCalculator.Common
 		private static decimal Calculate(decimal prev, IDiscount next, decimal productPrice)
 			=> (((productPrice - prev) * next.Amount) + prev).WithPrecision(Constants.MoneyRelatedPrecision);
 
-		public static decimal WithDiscountCalculationStrategy(this IEnumerable<IDiscount> discounts, Func<IEnumerable<IDiscount>, IProduct, decimal> strategy, IProduct product)
-			=> strategy(discounts, product);
+		public static decimal WithDiscountCalculationStrategy(this IEnumerable<IDiscount> discounts, IDiscountCalculationMode strategy, IProduct product)
+			=> strategy.CalculateDiscounts(discounts, product);
 	}
 }

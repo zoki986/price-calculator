@@ -2,7 +2,6 @@
 using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
 using PriceCalculator.PriceCalculationStrategies;
-using PriceCalculator.PriceModifiers;
 using PriceCalculator.Reporters;
 using System;
 
@@ -23,7 +22,7 @@ namespace PriceCalculator
 
 			// result = priceCalculation.GetPriceResultForProduct(product, priceModifiers);
 
-			var priceModifiersBuilder = new PriceModifiersBuilder()
+			var priceModifiersBuilder = new ModifiersBuilder()
 			.WithConfigurationFile(@"Config/config.txt");
 
 			var priceResult = priceCalculation.GetPriceResultForProduct(product, priceModifiersBuilder);

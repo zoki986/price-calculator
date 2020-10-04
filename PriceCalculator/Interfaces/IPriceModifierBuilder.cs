@@ -1,4 +1,4 @@
-﻿using PriceCalculator.PriceModifiers;
+﻿using PriceCalculator.PriceModifiersModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,7 +9,7 @@ namespace PriceCalculator.Interfaces
 	{
 		List<IPriceModifier> ProductPriceModifiers { get; }
 		NumberFormatInfo CurrencyFormat { get; }
-		Func<IEnumerable<IDiscount>, IProduct, decimal> DiscountCalculationMode{ get; }
+		IDiscountCalculationMode DiscountCalculationMode { get; }
 		DiscountCap DiscountCap { get; }
 	}
 }

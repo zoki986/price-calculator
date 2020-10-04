@@ -1,5 +1,5 @@
 ﻿using PriceCalculator.Interfaces;
-using PriceCalculator.PriceModifiers;
+using PriceCalculator.PriceModifiersModels;
 using System;
 using System.Globalization;
 

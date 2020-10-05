@@ -5,11 +5,13 @@ using System.Globalization;
 
 namespace PriceCalculator.Interfaces
 {
-	public interface IPriceModifierBuilder
+	public interface IProductModifiersBuilder
 	{
 		List<IPriceModifier> ProductPriceModifiers { get; }
-		NumberFormatInfo CurrencyFormat { get; }
+		IFormatProvider CurrencyFormat { get; }
 		IDiscountCalculationMode DiscountCalculationMode { get; }
 		DiscountCap DiscountCap { get; }
+		int CalculationPrecision { get; set; }
+		int ReportPrecision { get; set; }
 	}
 }

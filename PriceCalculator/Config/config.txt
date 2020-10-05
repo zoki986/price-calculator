@@ -23,7 +23,7 @@
 			} 
 		}
 	],
-	"CurrencyFormat": "USD",
+	"CurrencyFormat": { $type: "System.Globalization.NumberFormatInfo, System.Runtime" },
 	"DiscountCalculationMode": { $type: "PriceCalculator.PriceCalculationStrategies.MultiplicativeDiscountCalculation, PriceCalculator"},
 	"Cap": 50,
 	"CapType": {

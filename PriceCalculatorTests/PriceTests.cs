@@ -5,6 +5,7 @@ using PriceCalculator.PriceCalculationStrategies;
 using PriceCalculator.Common;
 using Xunit;
 using PriceCalculator.PriceModifiersModels;
+using System.Globalization;
 
 namespace Tests
 {
@@ -24,7 +25,7 @@ namespace Tests
 		IExpense packaging = PriceDependencies.GetExpense("Packaging",new PercentageCost(.01M));
 
 		IPriceCalculation priceCalculator = new CalculationStrategy();
-		ModifiersBuilder priceModifiersBuilder = new ModifiersBuilder();
+		ProductModifiersBuilder priceModifiersBuilder = new ProductModifiersBuilder();
 
 		[Fact]
 		public void Product_Price_With_Tax20_Percent()
@@ -152,7 +153,7 @@ namespace Tests
 		[Fact]
 		public void Product_Price_With_Multiplicative_Discount_Calculation()
 		{
-			priceModifiersBuilder = new ModifiersBuilder()
+			priceModifiersBuilder = new ProductModifiersBuilder()
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
@@ -171,7 +172,7 @@ namespace Tests
 		[Fact]
 		public void Product_Price_With_Additive_Discount_Calculation()
 		{
-			priceModifiersBuilder = new ModifiersBuilder()
+			priceModifiersBuilder = new ProductModifiersBuilder()
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
@@ -226,13 +227,15 @@ namespace Tests
 		[Fact]
 		public void Product_Price_With_Custom_Currency_Format()
 		{
+			var currencyFormat = new NumberFormatInfo { CurrencySymbol = "USD" , CurrencyPositivePattern = 3};
+
 			priceModifiersBuilder
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
 				.WithCap(new MonetaryCost(4M))
 				.WithAdditiveCalculation()
-				.WithCurrencyFormat("USD");
+				.WithCurrencyFormat(currencyFormat);
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 			string actual = priceResult.Total.FormatDecimal(priceResult.currencyFormat);
@@ -246,7 +249,7 @@ namespace Tests
 		{
 			var transport = PriceDependencies.GetExpense("Transport", new PercentageCost(0.03M));
 
-			priceModifiersBuilder = new ModifiersBuilder()
+			priceModifiersBuilder = new ProductModifiersBuilder()
 			   .WithDiscount(universalDiscount)
 			   .WithTax(taxPercent21)
 			   .WithExpense(transport)
@@ -265,7 +268,7 @@ namespace Tests
 		public void Product_Price_With_Configuration_File()
 		{
 
-			priceModifiersBuilder = new ModifiersBuilder()
+			priceModifiersBuilder = new ProductModifiersBuilder()
 			.WithConfigurationFile(@"Config/config.txt");
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);

@@ -11,17 +11,17 @@ using System.Text.RegularExpressions;
 
 namespace PriceCalculator.Builder
 {
-	public static class ModifierBuilderFromConfig
+	public static class ProductFileModifierBuilder
 	{
-		public static ModifiersBuilder GetPriceModifierBuilder(string filePath)
+		public static ProductModifiersBuilder GetPriceModifierBuilder(string filePath)
 		{
-			ModifiersBuilder modifiersBuilder = new ModifiersBuilder();
+			ProductModifiersBuilder modifiersBuilder = new ProductModifiersBuilder();
 			try
 			{
 				if (string.IsNullOrWhiteSpace(filePath))
 					throw new ArgumentNullException(nameof(filePath));
 
-				FilePriceConfig priceConfig = ReadConfigFile(filePath);
+				FileModifiersConfig priceConfig = ReadConfigFile(filePath);
 
 				modifiersBuilder
 					.WithPriceModifiers(priceConfig.PriceModifiers)
@@ -38,12 +38,13 @@ namespace PriceCalculator.Builder
 			return modifiersBuilder;
 		}
 
-		private static FilePriceConfig ReadConfigFile(string filePath)
+		private static FileModifiersConfig ReadConfigFile(string filePath)
 		{
 			var root = GetApplicationRootPath();
 			var configContent = File.ReadAllText(Path.Combine(root, filePath));
 
-			return JsonConvert.DeserializeObject<FilePriceConfig>(configContent, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto});
+			return JsonConvert.DeserializeObject<FileModifiersConfig>(
+				configContent, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects});
 		}
 
 		public static string GetApplicationRootPath()

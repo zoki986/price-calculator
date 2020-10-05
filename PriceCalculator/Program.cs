@@ -22,7 +22,7 @@ namespace PriceCalculator
 
 			// result = priceCalculation.GetPriceResultForProduct(product, priceModifiers);
 
-			var priceModifiersBuilder = new ModifiersBuilder()
+			var priceModifiersBuilder = new ProductModifiersBuilder()
 			.WithConfigurationFile(@"Config/config.txt");
 
 			var priceResult = priceCalculation.GetPriceResultForProduct(product, priceModifiersBuilder);

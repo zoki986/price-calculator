@@ -2,14 +2,6 @@
 {
 	public class ProductCostsReport
 	{
-		public ProductCostsReport(Money tax, Money discounts, Money expenses, Money total)
-		{
-			Tax = tax;
-			Discounts = discounts;
-			Expenses = expenses;
-			Total = total;
-		}
-
 		public ProductCostsReport(ProductCostsReport costs)
 		{
 			Tax = costs.Tax;

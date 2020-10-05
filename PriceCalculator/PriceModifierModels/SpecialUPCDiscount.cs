@@ -9,7 +9,7 @@ namespace PriceCalculator.PriceModifiersModels
 
 		new public SpecialUPCDiscount WithDiscount(decimal discount)
 		{
-			this.Amount = discount;
+			Amount = discount;
 			return this;
 		}
 
@@ -24,7 +24,7 @@ namespace PriceCalculator.PriceModifiersModels
 			if (product.UPC != UPC)
 				return 0;
 
-			return (Amount * product.Price.Amount).WithPrecision(Precision);
+			return Amount * product.Price.Amount;
 		}
 	}
 }

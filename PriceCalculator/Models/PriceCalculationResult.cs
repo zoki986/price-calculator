@@ -1,5 +1,6 @@
 ﻿using PriceCalculator.Common;
 using PriceCalculator.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -9,7 +10,7 @@ namespace PriceCalculator.Models
 	{
 
 		public IProduct product;
-		public NumberFormatInfo currencyFormat;
+		public IFormatProvider currencyFormat;
 		public Money Cost { get; set; }
 		public Money Tax { get; set; }
 		public Money Discounts { get; set; }
@@ -49,7 +50,7 @@ namespace PriceCalculator.Models
 			return this;
 		}
 
-		public PriceCalculationResult WithFormat(NumberFormatInfo currencyFormat)
+		public PriceCalculationResult WithFormat(IFormatProvider currencyFormat)
 		{
 			this.currencyFormat = currencyFormat;
 			return this;

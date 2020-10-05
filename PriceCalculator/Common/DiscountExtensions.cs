@@ -8,7 +8,7 @@ namespace PriceCalculator.Common
 {
 	public static class DiscountExtensions
 	{
-		public static Money ApplyPrecedence(this IEnumerable<IPrecedenceDiscount> discounts, IProduct product, IPriceModifierBuilder priceModifiers)
+		public static Money ApplyPrecedence(this IEnumerable<IPrecedenceDiscount> discounts, IProduct product, IProductModifiersBuilder priceModifiers)
 		{
 			var precedenceDiscountSum = discounts
 										.SumPrecedenceDiscounts(product)

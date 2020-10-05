@@ -8,19 +8,21 @@ namespace PriceCalculator.Common
 {
 	public static class CalculationStrategyExtensions
 	{
-		public static IProduct ApplyPrecedenceDiscount(this IProduct product, ModifiersBuilder priceModifiers)
-			=>	product.WithPrice(
+		public static IProduct CalculatePrecedenceDiscount(this IProduct product, IProductModifiersBuilder priceModifiers)
+			=> product.WithPrice(
 				 priceModifiers
 				.ProductPriceModifiers
 				.OfType<IPrecedenceDiscount>()
-				.ApplyPrecedence(product, priceModifiers));
+				.ApplyPrecedence(product, priceModifiers)
+				.WithPrecision(priceModifiers.CalculationPrecision)
+				);
 
-		public static ProductCostsReport ApplyTax(this IProduct product, ModifiersBuilder priceModifiers)
+		public static ProductCostsReport CalculateTax(this IProduct product, IProductModifiersBuilder priceModifiers)
 		{
 			decimal taxAmount = priceModifiers.ProductPriceModifiers.OfType<IProductTax>().ApplyPriceOperation(product);
 			return new ProductCostsReport().WithTax(new Money(taxAmount));
 		}
-		public static ProductCostsReport ApplyDiscounts(this ProductCostsReport costs, IProduct product, ModifiersBuilder priceModifiers)
+		public static ProductCostsReport CalculateDiscounts(this ProductCostsReport costs, IProduct product, IProductModifiersBuilder priceModifiers)
 		{
 			decimal discountsSum =
 					priceModifiers
@@ -28,23 +30,25 @@ namespace PriceCalculator.Common
 					.OfType<IDiscount>()
 					.Where(discount => !(discount is IPrecedenceDiscount))
 					.ApplyDiscountCalculationStrategy(priceModifiers.DiscountCalculationMode, product)
-					.ApplyDiscountCap(priceModifiers.DiscountCap, product);
+					.ApplyDiscountCap(priceModifiers.DiscountCap, product)
+					.WithPrecision(priceModifiers.CalculationPrecision);
 
 			return new ProductCostsReport(costs).WithDiscounts(new Money(discountsSum));
 		}
 
-		public static ProductCostsReport ApplyExpenses(this ProductCostsReport costs, IProduct product, ModifiersBuilder priceModifiers)
+		public static ProductCostsReport CalculateExpenses(this ProductCostsReport costs, IProduct product, IProductModifiersBuilder priceModifiers)
 		{
 			var aditionalExpenses =
 					priceModifiers
 					.ProductPriceModifiers
 					.OfType<IExpense>()
-					.SumExpenses(product);
+					.SumExpenses(product)
+					.WithPrecision(priceModifiers.CalculationPrecision);
 
 			return new ProductCostsReport(costs).WithExpenses(aditionalExpenses);
 		}
 
-		public static ProductCostsReport CalculateTotal(this ProductCostsReport costs, IProduct product, ModifiersBuilder priceModifiers)
+		public static ProductCostsReport CalculateTotal(this ProductCostsReport costs, IProduct product, IProductModifiersBuilder priceModifiers)
 		{
 			var finalPrice = 
 						product.Price + costs.Tax  + costs.Expenses - costs.Discounts

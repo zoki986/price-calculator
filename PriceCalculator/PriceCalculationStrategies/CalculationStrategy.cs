@@ -1,5 +1,4 @@
-﻿using PriceCalculator.Builder;
-using PriceCalculator.Common;
+﻿using PriceCalculator.Common;
 using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
 using System.Linq;
@@ -8,24 +7,18 @@ namespace PriceCalculator.PriceCalculationStrategies
 {
 	public class CalculationStrategy : IPriceCalculation
 	{
-		public PriceCalculationResult GetPriceResultForProduct(IProduct product, ModifiersBuilder priceModifiers)
-		{
-			ProductCostsReport costs = CalculateProductCosts(product, priceModifiers);
+		public PriceCalculationResult GetPriceResultForProduct(IProduct product, IProductModifiersBuilder priceModifiers) 
+			=> BuildPriceCalculationResult(product, priceModifiers, CalculateProductCosts(product, priceModifiers));
 
-			return BuildPriceCalculationResult(product, priceModifiers, costs);
-		}
-
-		private ProductCostsReport CalculateProductCosts(IProduct product, ModifiersBuilder priceModifiers)
-		{
-			return product
-				.ApplyPrecedenceDiscount(priceModifiers)
-				.ApplyTax(priceModifiers)
-				.ApplyDiscounts(product, priceModifiers)
-				.ApplyExpenses(product, priceModifiers)
+		private ProductCostsReport CalculateProductCosts(IProduct product, IProductModifiersBuilder priceModifiers) 
+			=> product
+				.CalculatePrecedenceDiscount(priceModifiers)
+				.CalculateTax(priceModifiers)
+				.CalculateDiscounts(product, priceModifiers)
+				.CalculateExpenses(product, priceModifiers)
 				.CalculateTotal(product, priceModifiers);
-		}
 
-		PriceCalculationResult BuildPriceCalculationResult(IProduct product, IPriceModifierBuilder priceModifiers, ProductCostsReport costs)
+		PriceCalculationResult BuildPriceCalculationResult(IProduct product, IProductModifiersBuilder priceModifiers, ProductCostsReport costs)
 			=> new PriceCalculationResult()
 			   .ForProduct(product)
 			   .WithInitialPrice(product.Price)

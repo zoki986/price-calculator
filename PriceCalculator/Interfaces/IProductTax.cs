@@ -3,6 +3,5 @@
 	public interface IProductTax : IPriceModifier
 	{
 		decimal Amount { get; }
-		int Precision { get; }
 	}
 }

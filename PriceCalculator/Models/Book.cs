@@ -28,9 +28,9 @@ namespace PriceCalculator.Models
 			return $"{Name}, UPC - {UPC} and Price - {Price}";
 		}
 
-		public string AsString(NumberFormatInfo formatInfo)
+		public string AsString(IFormatProvider formatProvider)
 		{
-			return $"{Name}, UPC - {UPC} and Price - {Price.Amount.ToString("C", formatInfo)}";
+			return $"{Name}, UPC - {UPC} and Price - {Price.Amount.ToString("C", formatProvider)}";
 		}
 	}
 }

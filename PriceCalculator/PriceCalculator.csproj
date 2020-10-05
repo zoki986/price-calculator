@@ -46,8 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builder\ModifierBuilderFromConfig.cs" />
-    <Compile Include="Builder\ModifiersBuilder.cs" />
+    <Compile Include="Builder\ProductFileModifierBuilder.cs" />
+    <Compile Include="Builder\ProductModifiersBuilder.cs" />
     <Compile Include="Common\CalculationStrategyExtensions.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\ExpensesExtensions.cs" />
@@ -57,7 +57,7 @@
     <Compile Include="Interfaces\IDiscountCalculationMode.cs" />
     <Compile Include="Interfaces\IExpense.cs" />
     <Compile Include="Interfaces\IPriceCalculation.cs" />
-    <Compile Include="Interfaces\IPriceModifierBuilder.cs" />
+    <Compile Include="Interfaces\IProductModifiersBuilder.cs" />
     <Compile Include="Interfaces\IPriceModifier.cs" />
     <Compile Include="Interfaces\ICalculationResult.cs" />
     <Compile Include="Interfaces\IProductTax.cs" />
@@ -72,7 +72,7 @@
     <Compile Include="PriceModifierModels\DiscountCap.cs" />
     <Compile Include="PriceModifierModels\Expense.cs" />
     <Compile Include="Models\PriceCalculationResult.cs" />
-    <Compile Include="Models\FilePriceConfig.cs" />
+    <Compile Include="Models\FileModifiersConfig.cs" />
     <Compile Include="PriceModifierModels\PrecedenceDiscount.cs" />
     <Compile Include="PriceModifierModels\SpecialUPCDiscount.cs" />
     <Compile Include="PriceModifierModels\TaxPriceModifier.cs" />

@@ -2,13 +2,11 @@
 using PriceCalculator.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace PriceCalculator.Models
 {
 	public class PriceCalculationResult : ICalculationResult
 	{
-
 		public IProduct product;
 		public IFormatProvider currencyFormat;
 		public Money Cost { get; set; }
@@ -55,6 +53,5 @@ namespace PriceCalculator.Models
 			this.currencyFormat = currencyFormat;
 			return this;
 		}
-
 	}
 }

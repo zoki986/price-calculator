@@ -54,6 +54,8 @@
     <Compile Include="Common\DecimalExtensions.cs" />
     <Compile Include="Common\DiscountExtensions.cs" />
     <Compile Include="Common\PropertyInfoExtensions.cs" />
+    <Compile Include="DiscountConditions\IDiscountCondition.cs" />
+    <Compile Include="DiscountConditions\SameUPCCondition.cs" />
     <Compile Include="Interfaces\IDiscountCalculationMode.cs" />
     <Compile Include="Interfaces\IExpense.cs" />
     <Compile Include="Interfaces\IPriceCalculation.cs" />

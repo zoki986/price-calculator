@@ -1,4 +1,4 @@
-﻿using PriceCalculator.Common;
+﻿using PriceCalculator.DiscountConditions;
 using PriceCalculator.Interfaces;
 
 namespace PriceCalculator.PriceModifiersModels
@@ -6,7 +6,7 @@ namespace PriceCalculator.PriceModifiersModels
 	public class SpecialUPCDiscount : Discount
 	{
 		public int UPC { get; set; }
-
+		private IDiscountCondition condition;
 		new public SpecialUPCDiscount WithDiscount(decimal discount)
 		{
 			Amount = discount;
@@ -21,10 +21,8 @@ namespace PriceCalculator.PriceModifiersModels
 
 		public override decimal ApllyModifier(IProduct product)
 		{
-			if (product.UPC != UPC)
-				return 0;
-
-			return Amount * product.Price.Amount;
+			condition = new SameUPCCondition(UPC, product.UPC);
+			return condition.GetConditionResult(product.Price.Amount, Amount);
 		}
 	}
 }

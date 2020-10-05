@@ -65,14 +65,14 @@
     <Compile Include="Interfaces\IExpenseType.cs" />
     <Compile Include="Models\Money.cs" />
     <Compile Include="Models\PercentageCost.cs" />
-    <Compile Include="Models\ProductCosts.cs" />
+    <Compile Include="Models\ProductCostsReport.cs" />
     <Compile Include="PriceCalculationStrategies\CalculationStrategy.cs" />
     <Compile Include="PriceCalculationStrategies\MultiplicativeDiscountCalculation.cs" />
     <Compile Include="PriceCalculationStrategies\SumingDiscountCalculation.cs" />
     <Compile Include="PriceModifierModels\DiscountCap.cs" />
     <Compile Include="PriceModifierModels\Expense.cs" />
     <Compile Include="Models\PriceCalculationResult.cs" />
-    <Compile Include="Models\PriceConfig.cs" />
+    <Compile Include="Models\FilePriceConfig.cs" />
     <Compile Include="PriceModifierModels\PrecedenceDiscount.cs" />
     <Compile Include="PriceModifierModels\SpecialUPCDiscount.cs" />
     <Compile Include="PriceModifierModels\TaxPriceModifier.cs" />

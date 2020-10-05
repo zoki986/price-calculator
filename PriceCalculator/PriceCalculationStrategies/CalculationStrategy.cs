@@ -10,12 +10,12 @@ namespace PriceCalculator.PriceCalculationStrategies
 	{
 		public PriceCalculationResult GetPriceResultForProduct(IProduct product, ModifiersBuilder priceModifiers)
 		{
-			ProductCosts costs = CalculateProductCosts(product, priceModifiers);
+			ProductCostsReport costs = CalculateProductCosts(product, priceModifiers);
 
 			return BuildPriceCalculationResult(product, priceModifiers, costs);
 		}
 
-		private ProductCosts CalculateProductCosts(IProduct product, ModifiersBuilder priceModifiers)
+		private ProductCostsReport CalculateProductCosts(IProduct product, ModifiersBuilder priceModifiers)
 		{
 			return product
 				.ApplyPrecedenceDiscount(priceModifiers)
@@ -25,7 +25,7 @@ namespace PriceCalculator.PriceCalculationStrategies
 				.CalculateTotal(product, priceModifiers);
 		}
 
-		PriceCalculationResult BuildPriceCalculationResult(IProduct product, IPriceModifierBuilder priceModifiers, ProductCosts costs)
+		PriceCalculationResult BuildPriceCalculationResult(IProduct product, IPriceModifierBuilder priceModifiers, ProductCostsReport costs)
 			=> new PriceCalculationResult()
 			   .ForProduct(product)
 			   .WithInitialPrice(product.Price)

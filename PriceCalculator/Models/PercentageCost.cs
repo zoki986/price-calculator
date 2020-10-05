@@ -16,7 +16,7 @@ namespace PriceCalculator.Models
 
 		public string GetCostFormated(PriceCalculationResult result, IExpense expense)
 			=> $"{expense} - {(amount * 100).WithPrecision(0)} " +
-			$"% = {expense.ApllyPriceOperation(result.product).FormatDecimal(result.currencyFormat)}";
+			$"% = {expense.ApllyModifier(result.product).FormatDecimal(result.currencyFormat)}";
 
 		public override string ToString() => "Percentage";
 	}

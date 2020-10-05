@@ -1,6 +1,4 @@
-﻿using PriceCalculator.Models;
-
-namespace PriceCalculator.Interfaces
+﻿namespace PriceCalculator.Interfaces
 {
 	public interface IDiscount : IPriceModifier
 	{

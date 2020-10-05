@@ -2,9 +2,9 @@
 using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
 using PriceCalculator.PriceCalculationStrategies;
-using PriceCalculator.PriceModifiers;
 using PriceCalculator.Common;
 using Xunit;
+using PriceCalculator.PriceModifiersModels;
 
 namespace Tests
 {
@@ -20,11 +20,11 @@ namespace Tests
 		IDiscount nonSpecialDiscount = new SpecialUPCDiscount().WithDiscount(.07M).WithUPC(789);
 		IPriceModifier specialDiscountWithPrecedence = new PrecedenceDiscount().WithDiscount(.07M).WithUPC(12345);
 
-		IExpense transport = PriceDependencies.GetExpense("Transport", 2.2m, new MonetaryCost());
-		IExpense packaging = PriceDependencies.GetExpense("Packaging", .01M, new PercentageCost());
+		IExpense transport = PriceDependencies.GetExpense("Transport",new MonetaryCost(2.2m));
+		IExpense packaging = PriceDependencies.GetExpense("Packaging",new PercentageCost(.01M));
 
 		IPriceCalculation priceCalculator = new CalculationStrategy();
-		PriceModifiersBuilder priceModifiersBuilder = new PriceModifiersBuilder();
+		ModifiersBuilder priceModifiersBuilder = new ModifiersBuilder();
 
 		[Fact]
 		public void Product_Price_With_Tax20_Percent()
@@ -152,7 +152,7 @@ namespace Tests
 		[Fact]
 		public void Product_Price_With_Multiplicative_Discount_Calculation()
 		{
-			priceModifiersBuilder = new PriceModifiersBuilder()
+			priceModifiersBuilder = new ModifiersBuilder()
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
@@ -171,7 +171,7 @@ namespace Tests
 		[Fact]
 		public void Product_Price_With_Additive_Discount_Calculation()
 		{
-			priceModifiersBuilder = new PriceModifiersBuilder()
+			priceModifiersBuilder = new ModifiersBuilder()
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
@@ -194,7 +194,7 @@ namespace Tests
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
-				.WithCap(.20M, new PercentageCost())
+				.WithCap(new PercentageCost(.20M))
 				.WithAdditiveCalculation();
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
@@ -212,7 +212,7 @@ namespace Tests
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
-				.WithCap(4M, new MonetaryCost())
+				.WithCap(new MonetaryCost(4M))
 				.WithAdditiveCalculation();
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
@@ -230,7 +230,7 @@ namespace Tests
 				.WithDiscount(universalDiscount)
 				.WithTax(taxPercent21)
 				.WithDiscount(specialDiscountSpecificForProduct)
-				.WithCap(4M, new MonetaryCost())
+				.WithCap(new MonetaryCost(4M))
 				.WithAdditiveCalculation()
 				.WithCurrencyFormat("USD");
 
@@ -244,9 +244,9 @@ namespace Tests
 		[Fact]
 		public void Product_Price_With_Additional_Precision()
 		{
-			var transport = PriceDependencies.GetExpense("Transport", 0.03M, new PercentageCost());
+			var transport = PriceDependencies.GetExpense("Transport", new PercentageCost(0.03M));
 
-			priceModifiersBuilder = new PriceModifiersBuilder()
+			priceModifiersBuilder = new ModifiersBuilder()
 			   .WithDiscount(universalDiscount)
 			   .WithTax(taxPercent21)
 			   .WithExpense(transport)
@@ -265,12 +265,12 @@ namespace Tests
 		public void Product_Price_With_Configuration_File()
 		{
 
-			priceModifiersBuilder = new PriceModifiersBuilder()
+			priceModifiersBuilder = new ModifiersBuilder()
 			.WithConfigurationFile(@"Config/config.txt");
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
-			decimal expectedPrice = 20.87M;
+			decimal expectedPrice = 20.86M;
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);

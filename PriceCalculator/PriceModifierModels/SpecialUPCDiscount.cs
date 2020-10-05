@@ -19,12 +19,12 @@ namespace PriceCalculator.PriceModifiersModels
 			return this;
 		}
 
-		public override decimal ApllyPriceOperation(IProduct product)
+		public override decimal ApllyModifier(IProduct product)
 		{
 			if (product.UPC != UPC)
 				return 0;
 
-			return (Amount * product.Price).WithPrecision(Precision);
+			return (Amount * product.Price.Amount).WithPrecision(Precision);
 		}
 	}
 }

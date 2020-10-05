@@ -21,7 +21,7 @@ namespace PriceCalculator.Builder
 				if (string.IsNullOrWhiteSpace(filePath))
 					throw new ArgumentNullException(nameof(filePath));
 
-				PriceConfig priceConfig = ReadConfigFile(filePath);
+				FilePriceConfig priceConfig = ReadConfigFile(filePath);
 
 				modifiersBuilder
 					.WithPriceModifiers(priceConfig.PriceModifiers)
@@ -38,12 +38,12 @@ namespace PriceCalculator.Builder
 			return modifiersBuilder;
 		}
 
-		private static PriceConfig ReadConfigFile(string filePath)
+		private static FilePriceConfig ReadConfigFile(string filePath)
 		{
 			var root = GetApplicationRootPath();
 			var configContent = File.ReadAllText(Path.Combine(root, filePath));
 
-			return JsonConvert.DeserializeObject<PriceConfig>(configContent, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto});
+			return JsonConvert.DeserializeObject<FilePriceConfig>(configContent, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto});
 		}
 
 		public static string GetApplicationRootPath()

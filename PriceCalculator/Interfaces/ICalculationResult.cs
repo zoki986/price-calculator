@@ -6,11 +6,11 @@ namespace PriceCalculator.Interfaces
 {
 	public interface ICalculationResult
 	{
-		PriceCalculationResult WithTax(decimal tax);
-		PriceCalculationResult WithInitialPrice(decimal price);
-		PriceCalculationResult WithDiscounts(decimal discount);
+		PriceCalculationResult WithTax(Money tax);
+		PriceCalculationResult WithInitialPrice(Money price);
+		PriceCalculationResult WithDiscounts(Money discount);
 		PriceCalculationResult WithExpenses(IEnumerable<IExpense> expenses);
-		PriceCalculationResult WithTotal(decimal total);
+		PriceCalculationResult WithTotal(Money total);
 		PriceCalculationResult WithFormat(NumberFormatInfo currencyFormat);
 	}
 }

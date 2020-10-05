@@ -10,9 +10,9 @@ namespace PriceCalculator.Models
 
 		public IProduct product;
 		public NumberFormatInfo currencyFormat;
-		public decimal Cost { get; set; }
-		public decimal Tax { get; set; }
-		public decimal Discounts { get; set; }
+		public Money Cost { get; set; }
+		public Money Tax { get; set; }
+		public Money Discounts { get; set; }
 		public IEnumerable<IExpense> Expenses { get; set; }
 		public decimal Total { get; set; }
 
@@ -22,17 +22,17 @@ namespace PriceCalculator.Models
 			return this;
 		}
 
-		public PriceCalculationResult WithTax(decimal tax)
+		public PriceCalculationResult WithTax(Money tax)
 		{
 			Tax = tax.WithPrecision(Constants.DefaultPrecision);
 			return this;
 		}
-		public PriceCalculationResult WithInitialPrice(decimal price)
+		public PriceCalculationResult WithInitialPrice(Money price)
 		{
 			Cost = price.WithPrecision(Constants.DefaultPrecision);
 			return this;
 		}
-		public PriceCalculationResult WithDiscounts(decimal discount)
+		public PriceCalculationResult WithDiscounts(Money discount)
 		{
 			Discounts = discount.WithPrecision(Constants.DefaultPrecision);
 			return this;
@@ -43,9 +43,9 @@ namespace PriceCalculator.Models
 			return this;
 		}
 
-		public PriceCalculationResult WithTotal(decimal total)
+		public PriceCalculationResult WithTotal(Money total)
 		{
-			Total = total.WithPrecision(Constants.DefaultPrecision);
+			Total = total.WithPrecision(Constants.DefaultPrecision).Amount;
 			return this;
 		}
 

@@ -11,7 +11,7 @@ namespace PriceCalculator
 	{
 		static void Main(string[] args)
 		{
-			IProduct product = new Book("The Little Prince", 12345, 20.25M);
+			IProduct product = new Book("The Little Prince", 12345, new Money(20.25M));
 
 			//var tax = new TaxPriceModifier(.20M);
 			//var discount = new Discount().WithDiscount(.15M);

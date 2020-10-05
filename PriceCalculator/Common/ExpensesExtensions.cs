@@ -8,8 +8,8 @@ namespace PriceCalculator.Common
 {
 	public static class ExpensesExtensions
 	{
-		public static decimal SumExpenses(this IEnumerable<IExpense> expenses, IProduct product)
-			=> expenses.Sum(expense => expense.ApllyPriceOperation(product));
+		public static Money SumExpenses(this IEnumerable<IExpense> expenses, IProduct product)
+			=> new Money(expenses.Sum(expense => expense.ApllyModifier(product)));
 		public static string GetExpenseAmountFormated(this PriceCalculationResult result, Expense expense)
 			=> expense.ExpenseType.GetCostFormated(result, expense);
 	}

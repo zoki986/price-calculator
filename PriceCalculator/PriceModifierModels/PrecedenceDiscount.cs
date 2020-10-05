@@ -1,21 +1,18 @@
 ﻿namespace PriceCalculator.PriceModifiersModels
 {
+	public interface IPrecedenceDiscount {}
 	public class PrecedenceDiscount :  SpecialUPCDiscount, IPrecedenceDiscount
 	{
-		new public PrecedenceDiscount WithDiscount(decimal discount)
+		public new PrecedenceDiscount WithDiscount(decimal discount)
 		{
-			this.Amount = discount;
+			Amount = discount;
 			return this;
 		}
 
-		new public PrecedenceDiscount WithUPC(int upc)
+		public new PrecedenceDiscount WithUPC(int upc)
 		{
 			UPC = upc;
 			return this;
 		}
-	}
-
-	public interface IPrecedenceDiscount
-	{
 	}
 }

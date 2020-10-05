@@ -2,6 +2,6 @@
 {
 	public interface IPriceModifier
 	{
-		decimal ApllyPriceOperation(IProduct product);
+		decimal ApllyModifier(IProduct product);
 	}
 }

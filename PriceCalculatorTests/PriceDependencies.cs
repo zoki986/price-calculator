@@ -1,6 +1,6 @@
 ﻿using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
-using PriceCalculator.PriceModifiers;
+using PriceCalculator.PriceModifiersModels;
 
 namespace Tests
 {
@@ -10,9 +10,9 @@ namespace Tests
 			=> new TaxPriceModifier(amount);
 
 		public static IProduct GetSimpleProduct()
-			=> new Book("The Little Prince", 12345, 20.25M);
+			=> new Book("The Little Prince", 12345, new Money(20.25M));
 
-		public static IExpense GetExpense(string name, decimal value, ICostType type)
-			=> new Expense(name, value, type);
+		public static IExpense GetExpense(string name, IExpenseType type)
+			=> new Expense(name, type);
 	}
 }

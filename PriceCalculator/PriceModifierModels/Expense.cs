@@ -14,8 +14,8 @@ namespace PriceCalculator.PriceModifiersModels
 			ExpenseType = costType;
 		}
 
-		public decimal ApllyPriceOperation(IProduct product)
-		  => ExpenseType.GetCostAmount(product.Price);
+		public decimal ApllyModifier(IProduct product)
+		  => ExpenseType.GetCostAmount(product.Price.Amount);
 
 		public string AsString(PriceCalculationResult res) 
 			=> $"{res.GetExpenseAmountFormated(this)}";

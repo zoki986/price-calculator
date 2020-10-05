@@ -14,14 +14,10 @@ namespace PriceCalculator.PriceModifiersModels
 			Precision = precision;
 		}
 
-		public decimal ApllyPriceOperation(IProduct product)
-		{
-			return (Amount* product.Price).WithPrecision(Precision);
-		}
+		public decimal ApllyModifier(IProduct product) 
+			=> (product.Price * Amount).WithPrecision(Precision).Amount;
 
-		public override string ToString()
-		{
-			return $"Tax = {Amount}";
-		}
+		public override string ToString() 
+			=> $"Tax = {Amount}";
 	}
 }

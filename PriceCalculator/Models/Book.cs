@@ -8,20 +8,19 @@ namespace PriceCalculator.Models
 	{
 		public string Name { get; }
 		public int UPC { get; }
-		public decimal Price { get; set; }
+		public Money Price { get; set; }
 
-		public Book(string name, int UPC, decimal price)
+		public Book(string name, int UPC, Money price)
 		{
 			Name = name;
 			this.UPC = UPC;
 			Price = price;
 		}
 
-		public Book(decimal amount, Book book)
+		public IProduct WithPrice(Money price)
 		{
-			Price = amount;
-			Name = book.Name;
-			UPC = book.UPC;
+			Price = price;
+			return this;
 		}
 
 		public override string ToString()
@@ -31,7 +30,7 @@ namespace PriceCalculator.Models
 
 		public string AsString(NumberFormatInfo formatInfo)
 		{
-			return $"{Name}, UPC - {UPC} and Price - {Price.ToString("C", formatInfo)}";
+			return $"{Name}, UPC - {UPC} and Price - {Price.Amount.ToString("C", formatInfo)}";
 		}
 	}
 }

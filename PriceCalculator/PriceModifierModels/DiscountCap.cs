@@ -17,6 +17,6 @@ namespace PriceCalculator.PriceModifiersModels
 			return discount >= discountCap ? discountCap : discount;
 		}
 		private decimal GetDiscountCap(IProduct product)
-			=> CapType.GetCostAmount(product.Price);
+			=> CapType.GetCostAmount(product.Price.Amount);
 	}
 }

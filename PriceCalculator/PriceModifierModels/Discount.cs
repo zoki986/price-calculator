@@ -1,5 +1,6 @@
 ﻿using PriceCalculator.Common;
 using PriceCalculator.Interfaces;
+using PriceCalculator.Models;
 
 namespace PriceCalculator.PriceModifiersModels
 {
@@ -10,12 +11,12 @@ namespace PriceCalculator.PriceModifiersModels
 
 		public Discount WithDiscount(decimal discount)
 		{
-			this.Amount = discount;
+			Amount = discount;
 			return this;
 		}
 
-		public virtual decimal ApllyPriceOperation(IProduct product) 
-			=> (product.Price * Amount).WithPrecision(Precision);
+		public virtual decimal ApllyModifier(IProduct product) 
+			=> (product.Price.Amount * Amount).WithPrecision(Precision);
 		public override string ToString() 
 			=> $"Discount = {Amount}";
 	}

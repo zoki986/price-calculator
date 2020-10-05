@@ -1,32 +1,33 @@
 {
 	"PriceModifiers": [
 		{
-			"$type": "PriceCalculator.PriceModifiers.TaxPriceModifier, PriceCalculator",
+			"$type": "PriceCalculator.PriceModifiersModels.TaxPriceModifier, PriceCalculator",
 			"Cost" : 0.21,
 			"Precision" : 2
 		},
 		{
-			"$type": "PriceCalculator.PriceModifiers.Discount, PriceCalculator",
+			"$type": "PriceCalculator.PriceModifiersModels.Discount, PriceCalculator",
 			"DiscountAmount" : 0.15 
 		},
 		{
-			"$type": "PriceCalculator.PriceModifiers.SpecialUPCDiscount, PriceCalculator",
+			"$type": "PriceCalculator.PriceModifiersModels.SpecialUPCDiscount, PriceCalculator",
 			"DiscountAmount" : 0.07, 
 			"UPC" : 12345 
 		},
 		{
-			"$type": "PriceCalculator.PriceModifiers.Expense, PriceCalculator",
+			"$type": "PriceCalculator.PriceModifiersModels.Expense, PriceCalculator",
 			"Name": "Transport", 
-			"Cost": 0.03, 
 			"ExpenseType": {
 					"$type": "PriceCalculator.Models.PercentageCost, PriceCalculator",
+					"Amount": 0.03, 
 			} 
 		}
 	],
 	"CurrencyFormat": "USD",
-	"DiscountCalculationMode": "multiplicative",
+	"DiscountCalculationMode": { $type: "PriceCalculator.PriceCalculationStrategies.MultiplicativeDiscountCalculation, PriceCalculator"},
 	"Cap": 50,
 	"CapType": {
 		"$type": "PriceCalculator.Models.PercentageCost, PriceCalculator",
+		"amount": 50
 	}
 }

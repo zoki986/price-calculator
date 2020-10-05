@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using PriceCalculator.Models;
+using System.Globalization;
 
 namespace PriceCalculator.Interfaces
 {
@@ -6,7 +7,8 @@ namespace PriceCalculator.Interfaces
 	{
 		string Name { get; }
 		int UPC { get; }
-		decimal Price { get; set; }
+		Money Price { get; set; }
+		IProduct WithPrice(Money price);
 		string AsString(NumberFormatInfo formatInfo);
 	}
 }

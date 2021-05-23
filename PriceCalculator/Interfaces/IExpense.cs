@@ -1,10 +1,12 @@
 ﻿using PriceCalculator.Models;
+using System;
 
 namespace PriceCalculator.Interfaces
 {
 	public interface IExpense : IPriceModifier
 	{
 		string Name { get; }
-		string AsString(PriceCalculationResult res);
+		Money ExpenseAmount { get; }
+		string AsString(IFormatProvider res);
 	}
 }

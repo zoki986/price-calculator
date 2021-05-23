@@ -1,8 +1,6 @@
-﻿using PriceCalculator.Builder;
-using PriceCalculator.Interfaces;
+﻿using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
 using PriceCalculator.PriceCalculationStrategies;
-using PriceCalculator.Reporters;
 using System;
 
 namespace PriceCalculator
@@ -21,13 +19,6 @@ namespace PriceCalculator
 			//var priceModifiers = new PriceModifiersBuilder().WithTax(tax).WithDiscount(discount).WithDiscount(specialDiscount);
 
 			// result = priceCalculation.GetPriceResultForProduct(product, priceModifiers);
-
-			var priceModifiersBuilder = new ProductModifiersBuilder()
-			.WithConfigurationFile(@"Config/config.txt");
-
-			var priceResult = priceCalculation.GetPriceResultForProduct(product, priceModifiersBuilder);
-
-			ConsoleReporter.PrintResult(priceResult);
 
 			Console.ReadLine();
 		}

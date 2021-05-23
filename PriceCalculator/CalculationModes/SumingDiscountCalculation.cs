@@ -3,7 +3,7 @@ using PriceCalculator.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PriceCalculator.PriceCalculationStrategies
+namespace PriceCalculator.CalculationModes
 {
 	public class SumingDiscountCalculation : IDiscountCalculationMode
 	{

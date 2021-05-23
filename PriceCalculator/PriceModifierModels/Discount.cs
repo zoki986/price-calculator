@@ -1,5 +1,4 @@
-﻿using PriceCalculator.Common;
-using PriceCalculator.Interfaces;
+﻿using PriceCalculator.Interfaces;
 
 namespace PriceCalculator.PriceModifiersModels
 {

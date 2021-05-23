@@ -4,28 +4,21 @@ namespace PriceCalculator.Models
 {
 	public class Money : IEquatable<Money>
 	{
-		public decimal Amount { get; set; }
-		public string Simbol { get; }
+		public decimal Amount { get; }
+		public IFormatProvider Format { get; }
 
-		public Money(decimal amount, string simbol = "USD")
+		public Money(decimal amount, IFormatProvider format = default)
 		{
 			Amount = amount;
-			Simbol = simbol;
+			Format = format;
 		}
-		public Money()
-		{
-		}
-
 		public static Money operator +(Money a, Money b) => new Money(a.Amount + b.Amount);
 		public static Money operator +(Money a, decimal b) => new Money(a.Amount + b);
 		public static Money operator -(Money a, Money b) => new Money(a.Amount - b.Amount);
 		public static Money operator -(Money a, decimal b) => new Money(a.Amount - b);
-		public static Money operator *(Money a, Money b) => new Money(a.Amount * b.Amount);
 		public static Money operator *(Money a, decimal b) => new Money(a.Amount * b);
-
 		public static bool operator ==(Money a, decimal b) => a.Amount.Equals(b);
 		public static bool operator !=(Money a, decimal b) => !a.Amount.Equals(b);
-
 		public override bool Equals(object obj)
 		{
 			return base.Equals(obj);
@@ -34,6 +27,21 @@ namespace PriceCalculator.Models
 		public bool Equals(Money other)
 		{
 			return other.Amount.Equals(Amount);
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
+
+		public string AsString(IFormatProvider format)
+		{
+			return Amount.ToString("C", format);
+		}
+
+		public override string ToString()
+		{
+			return Amount.ToString("C", Format);
 		}
 	}
 }

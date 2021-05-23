@@ -2,6 +2,19 @@
 {
 	public class ProductCostsReport
 	{
+		public Money Tax { get; set; }
+		public Money Discounts { get; set; }
+		public Money Expenses { get; set; }
+		public Money Total { get; set; }
+
+		public void Deconstruct(out Money tax, out Money discounts, out Money expenses, out Money total)
+		{
+			tax = Tax;
+			discounts = Discounts;
+			expenses = Expenses;
+			total = Total;
+		}
+
 		public ProductCostsReport(ProductCostsReport costs)
 		{
 			Tax = costs.Tax;
@@ -9,15 +22,11 @@
 			Expenses = costs.Expenses;
 			Total = costs.Total;
 		}
-		public ProductCostsReport()
-		{
-		}
-		public ProductCostsReport WithTax(Money tax)
+
+		public ProductCostsReport(Money tax)
 		{
 			Tax = tax;
-			return this;
 		}
-
 		public ProductCostsReport WithExpenses(Money expenses)
 		{
 			Expenses = expenses;
@@ -35,10 +44,5 @@
 			Total = total;
 			return this;
 		}
-
-		public Money Tax { get; set; }
-		public Money Discounts { get; set; }
-		public Money Expenses { get; set; }
-		public Money Total { get; set; }
 	}
 }

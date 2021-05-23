@@ -1,11 +1,10 @@
-﻿using PriceCalculator.Interfaces;
-using PriceCalculator.Models;
+﻿using System;
 
 namespace PriceCalculator.Interfaces
 {
 	public interface IExpenseType
 	{
 		decimal GetCostAmount(decimal price);
-		string GetCostFormated(PriceCalculationResult result, IExpense expense);
+		int DecimalsInFormat { get; }
 	}
 }

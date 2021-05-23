@@ -10,8 +10,6 @@ namespace PriceCalculator.Common
 	{
 		public static decimal WithPrecision(this decimal number, int precision)
 			=> decimal.Round(number, precision, MidpointRounding.AwayFromZero);
-		public static Money WithPrecision(this Money number, int precision)
-			=> new Money(decimal.Round(number.Amount, precision, MidpointRounding.AwayFromZero));
 		public static string FormatDecimal(this decimal number, IFormatProvider format)
 			=> number.ToString("C", format);
 		public static string FormatDecimal(this Money number, NumberFormatInfo formatInfo)

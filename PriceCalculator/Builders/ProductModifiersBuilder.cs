@@ -1,21 +1,19 @@
-﻿using PriceCalculator.Interfaces;
-using PriceCalculator.PriceCalculationStrategies;
+﻿using PriceCalculator.CalculationModes;
+using PriceCalculator.Interfaces;
 using PriceCalculator.PriceModifiersModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace PriceCalculator.Builder
 {
 	public class ProductModifiersBuilder : IProductModifiersBuilder
 	{
 		public List<IPriceModifier> ProductPriceModifiers { get; set; } = new List<IPriceModifier>();
-		public IFormatProvider CurrencyFormat { get; set; } = new NumberFormatInfo() { CurrencySymbol = "$" };
+		public IFormatProvider CurrencyFormat { get; set; } = CultureInfo.CurrentCulture.NumberFormat;
 		public IDiscountCalculationMode DiscountCalculationMode { get; set; } = new SumingDiscountCalculation();
 		public DiscountCap DiscountCap { get; set; }
 		public int CalculationPrecision { get; set; } = 2;
-		public int ReportPrecision { get; set; } = 2;
 
 		public ProductModifiersBuilder()
 		{
@@ -68,11 +66,5 @@ namespace PriceCalculator.Builder
 			ProductPriceModifiers.AddRange(priceModifiers);
 			return this;
 		}
-
-		public ProductModifiersBuilder WithConfigurationFile(string filePath)
-		{
-			return ProductFileModifierBuilder.GetPriceModifierBuilder(filePath);
-		}
 	}
-
 }

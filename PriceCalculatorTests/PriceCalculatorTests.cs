@@ -1,18 +1,20 @@
-﻿using PriceCalculator.Builder;
+﻿using Newtonsoft.Json;
+using PriceCalculator.Builder;
 using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
 using PriceCalculator.PriceCalculationStrategies;
-using PriceCalculator.Common;
-using Xunit;
 using PriceCalculator.PriceModifiersModels;
+using PriceCalculatorTests;
 using System.Globalization;
+using Xunit;
 
 namespace Tests
 {
-	public class PriceTests
+	public class PriceCalculatorTests
 	{
-		IProduct product = PriceDependencies.GetSimpleProduct();
-		
+		IProduct product = PriceDependencies.GetSimpleProduct("The Little Prince", 12345, 20.25m);
+		IProduct productGbp = PriceDependencies.GetSimpleProduct("The Little Prince", 12345, 17.76m);
+
 		IProductTax taxPercent20 = PriceDependencies.GetTaxWithAmount(.20M);
 		IProductTax taxPercent21 = PriceDependencies.GetTaxWithAmount(.21M);
 
@@ -21,8 +23,8 @@ namespace Tests
 		IDiscount nonSpecialDiscount = new SpecialUPCDiscount().WithDiscount(.07M).WithUPC(789);
 		IPriceModifier specialDiscountWithPrecedence = new PrecedenceDiscount().WithDiscount(.07M).WithUPC(12345);
 
-		IExpense transport = PriceDependencies.GetExpense("Transport",new MonetaryCost(2.2m));
-		IExpense packaging = PriceDependencies.GetExpense("Packaging",new PercentageCost(.01M));
+		IExpense transport = PriceDependencies.GetExpense("Transport", new MonetaryCost(2.2m));
+		IExpense packaging = PriceDependencies.GetExpense("Packaging", new PercentageCost(.01M));
 
 		IPriceCalculation priceCalculator = new CalculationStrategy();
 		ProductModifiersBuilder priceModifiersBuilder = new ProductModifiersBuilder();
@@ -36,7 +38,7 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			var actual = priceResult.Total;
-			var expected = 24.30M;
+			var expected = new Money(24.30M);
 
 			Assert.Equal(expected, actual);
 		}
@@ -50,7 +52,7 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			var actual = priceResult.Total;
-			var expected = 24.50M;
+			var expected = new Money(24.50M);
 
 			Assert.Equal(expected, actual);
 		}
@@ -65,7 +67,7 @@ namespace Tests
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
 			var actual = priceResult.Total;
-			var expected = 21.26M;
+			var expected = new Money(21.26M);
 
 			Assert.Equal(expected, actual);
 		}
@@ -80,7 +82,7 @@ namespace Tests
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
-			decimal expectedPrice = 19.84M;
+			var expectedPrice = new Money(19.84M);
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
@@ -96,7 +98,7 @@ namespace Tests
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
-			decimal expectedPrice = 21.46M;
+			var expectedPrice = new Money(21.46M);
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
@@ -112,7 +114,7 @@ namespace Tests
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
-			decimal expectedPrice = 19.78M;
+			var expectedPrice = new Money(19.78M);
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
@@ -127,11 +129,13 @@ namespace Tests
 				.WithDiscount(specialDiscountSpecificForProduct)
 				.WithExpense(packaging)
 				.WithExpense(transport)
-				.WithAdditiveCalculation();
+				.WithAdditiveCalculation()
+				.WithCurrencyFormat(CultureInfo.CurrentCulture.NumberFormat);
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
+			var t = JsonConvert.SerializeObject(priceModifiersBuilder);
 
-			decimal expectedPrice = 22.44M;
+			var expectedPrice = new Money(22.44M);
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
@@ -144,7 +148,7 @@ namespace Tests
 				.WithTax(taxPercent21);
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
-			decimal expectedPrice = 24.5M;
+			var expectedPrice = new Money(24.5M);
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
@@ -163,7 +167,7 @@ namespace Tests
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
-			decimal expectedPrice = 22.66M;
+			var expectedPrice = new Money(22.66M);
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
@@ -182,7 +186,7 @@ namespace Tests
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
-			decimal expectedPrice = 22.44M;
+			var expectedPrice = new Money(22.44M);
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
@@ -200,7 +204,7 @@ namespace Tests
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
-			decimal expectedPrice = 20.45M;
+			var expectedPrice = new Money(20.45M);
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
@@ -218,7 +222,7 @@ namespace Tests
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
-			decimal expectedPrice = 20.50M;
+			var expectedPrice = new Money(20.50M);
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
@@ -227,7 +231,7 @@ namespace Tests
 		[Fact]
 		public void Product_Price_With_Custom_Currency_Format()
 		{
-			var currencyFormat = new NumberFormatInfo { CurrencySymbol = "USD" , CurrencyPositivePattern = 3};
+			var currencyFormat = new NumberFormatInfo { CurrencySymbol = "DIN", CurrencyPositivePattern = 3 };
 
 			priceModifiersBuilder
 				.WithDiscount(universalDiscount)
@@ -238,8 +242,8 @@ namespace Tests
 				.WithCurrencyFormat(currencyFormat);
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
-			string actual = priceResult.Total.FormatDecimal(priceResult.currencyFormat);
-			string expectedFormt = "20.50 USD";
+			var actual = priceResult.Total.ToString();
+			var expectedFormt = "20.50 DIN";
 
 			Assert.Equal(expectedFormt, actual);
 		}
@@ -258,26 +262,81 @@ namespace Tests
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
-			decimal expectedPrice = 20.87M;
+			var expectedPrice = new Money(20.87M);
 			var actual = priceResult.Total;
 
 			Assert.Equal(expectedPrice, actual);
 		}
 
 		[Fact]
-		public void Product_Price_With_Configuration_File()
+		public void PRECISION_Report_Printed()
 		{
+			var transport = PriceDependencies.GetExpense("Transport", new PercentageCost(0.03M));
+			var currencyFormat = new NumberFormatInfo { CurrencySymbol = "USD", CurrencyPositivePattern = 3 };
 
 			priceModifiersBuilder = new ProductModifiersBuilder()
-			.WithConfigurationFile(@"Config/config.txt");
+			   .WithDiscount(universalDiscount)
+			   .WithTax(taxPercent21)
+			   .WithExpense(transport)
+			   .WithDiscount(specialDiscountSpecificForProduct)
+			   .WithMultiplicativeCalculation()
+			   .WithCurrencyFormat(currencyFormat);
 
 			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
 
-			decimal expectedPrice = 20.86M;
-			var actual = priceResult.Total;
+			var expected = @"Cost = 20.25 USD " +
+							"Tax = 4.25 USD " +
+							"Discounts = 4.24 USD " +
+							"Transport = 0.61 USD " +
+							"TOTAL = 20.87 USD";
 
-			Assert.Equal(expectedPrice, actual);
+			var actual = priceResult.ToString().CleanseString();
+
+			Assert.Equal(expected, actual);
 		}
 
+		[Fact]
+		public void CURRENCY_Report_Printed()
+		{
+			var currencyFormatGbp = new NumberFormatInfo { CurrencySymbol = "GBP", CurrencyPositivePattern = 3 };
+
+			priceModifiersBuilder = new ProductModifiersBuilder()
+			   .WithTax(taxPercent20)
+			   .WithCurrencyFormat(currencyFormatGbp);
+
+			var priceResult = priceCalculator.GetPriceResultForProduct(productGbp, priceModifiersBuilder);
+
+			var expected = @"Cost = 17.76 GBP " +
+							"Tax = 3.55 GBP " +
+							"TOTAL = 21.31 GBP";
+
+			var actual = priceResult.ToString().CleanseString();
+			
+			Assert.Equal(expected, actual);
+		}
+
+		[Fact]
+		public void COMBINING_Report_Printed()
+		{
+			priceModifiersBuilder = new ProductModifiersBuilder()
+			   .WithTax(taxPercent21)
+			   .WithDiscount(universalDiscount)
+			   .WithDiscount(specialDiscountSpecificForProduct)
+			   .WithMultiplicativeCalculation()
+			   .WithExpense(packaging, transport);
+
+			var priceResult = priceCalculator.GetPriceResultForProduct(product, priceModifiersBuilder);
+
+			var expected = @"Cost = $20.25 " +
+							"Tax = $4.25 " +
+							"Discounts = $4.24 " +
+							"Packaging = $0.20 " +
+							"Transport = $2.2 " +
+							"TOTAL = $22.66";
+
+			var actual = priceResult.ToString().CleanseString();
+
+			Assert.Equal(expected, actual);
+		}
 	}
 }

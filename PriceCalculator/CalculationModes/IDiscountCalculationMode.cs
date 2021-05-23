@@ -1,7 +1,8 @@
-﻿using PriceCalculator.Models;
+﻿using PriceCalculator.Interfaces;
+using PriceCalculator.Models;
 using System.Collections.Generic;
 
-namespace PriceCalculator.Interfaces
+namespace PriceCalculator.CalculationModes
 {
 	public interface IDiscountCalculationMode
 	{

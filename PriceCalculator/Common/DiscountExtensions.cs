@@ -1,4 +1,5 @@
-﻿using PriceCalculator.Interfaces;
+﻿using PriceCalculator.CalculationModes;
+using PriceCalculator.Interfaces;
 using PriceCalculator.Models;
 using PriceCalculator.PriceModifiersModels;
 using System.Collections.Generic;

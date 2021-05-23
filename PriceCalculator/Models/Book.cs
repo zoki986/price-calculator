@@ -1,6 +1,5 @@
 ﻿using PriceCalculator.Interfaces;
 using System;
-using System.Globalization;
 
 namespace PriceCalculator.Models
 {
@@ -17,7 +16,7 @@ namespace PriceCalculator.Models
 			Price = price;
 		}
 
-		public IProduct WithPrice(Money price)
+		public IProduct WithNewPrice(Money price)
 		{
 			Price = price;
 			return this;

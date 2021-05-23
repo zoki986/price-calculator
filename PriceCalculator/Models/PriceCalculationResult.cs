@@ -2,56 +2,59 @@
 using PriceCalculator.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace PriceCalculator.Models
 {
-	public class PriceCalculationResult : ICalculationResult
+	public class PriceCalculationResult
 	{
-		public IProduct product;
-		public IFormatProvider currencyFormat;
-		public Money Cost { get; set; }
-		public Money Tax { get; set; }
-		public Money Discounts { get; set; }
-		public IEnumerable<IExpense> Expenses { get; set; }
-		public decimal Total { get; set; }
-
-		public PriceCalculationResult ForProduct(IProduct product)
+		public IProduct Product { get; }
+		public Money InitialPrice { get;  }
+		public Money Tax { get; }
+		public Money Discounts { get; }
+		public Money ExpensesAmount { get; }
+		public Money Total { get;  }
+		public IFormatProvider CurrencyFormat { get; }
+		public IEnumerable<IExpense> Expenses { get; }
+		public PriceCalculationResult(IProduct product, IProductModifiersBuilder productModifiers, ProductCostsReport productCosts)
 		{
-			this.product = product;
-			return this;
+			this.Product = product;
+			this.Expenses = productModifiers.GetModifiersOfType<IExpense>();
+			this.CurrencyFormat = productModifiers.CurrencyFormat;
+			this.InitialPrice = product.Price;
+			(this.Tax, this.Discounts, this.ExpensesAmount, this.Total) = productCosts;
 		}
 
-		public PriceCalculationResult WithTax(Money tax)
+		public override string ToString()
 		{
-			Tax = tax.WithPrecision(Constants.DefaultPrecision);
-			return this;
-		}
-		public PriceCalculationResult WithInitialPrice(Money price)
-		{
-			Cost = price.WithPrecision(Constants.DefaultPrecision);
-			return this;
-		}
-		public PriceCalculationResult WithDiscounts(Money discount)
-		{
-			Discounts = discount.WithPrecision(Constants.DefaultPrecision);
-			return this;
-		}
-		public PriceCalculationResult WithExpenses(IEnumerable<IExpense> expenses)
-		{
-			Expenses = expenses;
-			return this;
-		}
+			var sb = new StringBuilder();
 
-		public PriceCalculationResult WithTotal(Money total)
-		{
-			Total = total.WithPrecision(Constants.DefaultPrecision).Amount;
-			return this;
-		}
+			sb.TryAppendLine("Cost", Product.Price, CurrencyFormat);
+			sb.TryAppendLine("Tax", Tax, CurrencyFormat);
+			sb.TryAppendLine("Discounts", Discounts, CurrencyFormat);
 
-		public PriceCalculationResult WithFormat(IFormatProvider currencyFormat)
+			if (Expenses != null)
+			{
+				foreach (var expense in Expenses)
+					sb.AppendLine($"{expense.AsString(CurrencyFormat)}");
+			}
+
+			sb.TryAppendLine("TOTAL", Total, CurrencyFormat);
+
+			return sb.ToString();
+		}
+	}
+
+	public static class SbExtensions
+	{
+		public static StringBuilder TryAppendLine(this StringBuilder sb, string expenseName, Money amount, IFormatProvider format)
 		{
-			this.currencyFormat = currencyFormat;
-			return this;
+			if (amount == null || (amount.Amount == default))
+			{
+				return sb;
+			}
+
+			return sb.AppendLine($"{expenseName} = {amount.AsString(format)}");
 		}
 	}
 }

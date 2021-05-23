@@ -1,23 +1,20 @@
-﻿using PriceCalculator.Common;
-using PriceCalculator.Interfaces;
+﻿using PriceCalculator.Interfaces;
 
 namespace PriceCalculator.Models
 {
 	public class PercentageCost : IExpenseType
 	{
-		private readonly decimal amount;
-		public PercentageCost(decimal amount)
+		private readonly decimal _amount;
+		private readonly int _decimalsInFormat;
+		public int DecimalsInFormat { get => _decimalsInFormat; }
+
+		public PercentageCost(decimal amount, int decimalsInFormat = 2)
 		{
-			this.amount = amount;
+			_amount = amount;
+			_decimalsInFormat = decimalsInFormat;
 		}
 
 		public decimal GetCostAmount(decimal price)
-			=> amount * price;
-
-		public string GetCostFormated(PriceCalculationResult result, IExpense expense)
-			=> $"{expense} - {(amount * 100).WithPrecision(0)} " +
-			$"% = {expense.ApllyModifier(result.product).FormatDecimal(result.currencyFormat)}";
-
-		public override string ToString() => "Percentage";
+			=> _amount * price;
 	}
 }

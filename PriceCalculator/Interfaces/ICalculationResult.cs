@@ -1,5 +1,4 @@
 ﻿using PriceCalculator.Models;
-using System;
 using System.Collections.Generic;
 
 namespace PriceCalculator.Interfaces
@@ -11,6 +10,5 @@ namespace PriceCalculator.Interfaces
 		PriceCalculationResult WithDiscounts(Money discount);
 		PriceCalculationResult WithExpenses(IEnumerable<IExpense> expenses);
 		PriceCalculationResult WithTotal(Money total);
-		PriceCalculationResult WithFormat(IFormatProvider currencyFormat);
 	}
 }
